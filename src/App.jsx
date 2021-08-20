@@ -3,6 +3,9 @@ import './App.css';
 import TitleBar from './titleBar/titleBar';
 import PantryTable from './pantryTable/pantryTable';
 import axios from "axios";
+import { Provider } from 'react-redux';
+import store from './store'
+import AddFood from './addFood/addFood';
 
 function App() {
   const [foods, setFoods] = useState([
@@ -30,10 +33,13 @@ function App() {
 
   
   return (
+    <Provider store={store}>
     <div className="App">
     <TitleBar />
+    <AddFood />
     <PantryTable foods={foods} deleteFood={deleteFood}/>      
     </div>
+    </Provider>
   );
 }
 
