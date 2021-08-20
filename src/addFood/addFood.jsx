@@ -18,9 +18,7 @@ class AddFood extends Component {
           };
           this.handleShow = this.handleShow.bind(this);
           this.handleClose = this.handleClose.bind(this);
-    }
-
-    
+    }    
     
     onChange(e){
         this.setState({
@@ -30,7 +28,6 @@ class AddFood extends Component {
 
     onSubmit (e){
         e.preventDefault();
-
         const food = {
             name: this.state.name,
             type: this.state.type,
@@ -44,23 +41,22 @@ class AddFood extends Component {
  
     handleClose (e){
         this.setState({
-     setShow:false})
-        }
+            setShow:false})
+            }
 
-    handleShow (e) {
+        handleShow (e) {
         this.setState({
             setShow:true})
-               }
+            }
 
     render() { 
-     
-        return (       
+             return (       
          <>
-             <Button variant="warning" onClick={(e) => this.handleShow}>
+             <Button variant="warning" setShow = {this.setShow} onClick={(e) => this.handleShow(e)}>
               add food to your pantry
             </Button>
       
-            <Modal onClick={(e) => this.handleShow}>
+            <Modal setShow={this.setShow} onClick={(e) => this.handleClose(e)}>
               <Modal.Header>
                 <Modal.Title>add food to mypantry</Modal.Title>
               </Modal.Header>
@@ -126,7 +122,7 @@ class AddFood extends Component {
               </div>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={this.handleClose}>
+                <Button variant="secondary" onClick={(e)=>this.handleClose(e)}>
                   Close
                 </Button>
                

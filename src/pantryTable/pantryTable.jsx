@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import { fetchFoods, createFood } from '../actions/foodActions';
+import React from 'react';
 import './pantryTable.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import EditModal from '../editModal/editModal';
-import { ReactReduxContext } from 'react-redux';
-import { Component } from 'react';
+import { store } from '../app/store'
+import { useFetchFoodQuery } from '../features/pantryApiSlice';
 
 
 
 
-class PantryTable extends Component {
-    
-    componentDidMount(){
-        this.props.fetchFoods();
-    };
+export function PantryTable() {
+
+
+    const dispatch = store.dispatch
+    const { data = [] } = useFetchFoodQuery();
+  
     
     
     
@@ -27,7 +25,7 @@ class PantryTable extends Component {
     //     food.expiration.toLowerCase().includes(search.toLowerCase())
     // );
 
-  closeTable = () => {
+  const closeTable = () => {
         var x = document.getElementById("myDIV");
         if (x.style.display === "none") {
           x.style.display = "block";
@@ -37,7 +35,7 @@ class PantryTable extends Component {
       };
     
 
-render() {
+
     return (     
       <div className="row">
       <div className="col-md-2" />
@@ -60,13 +58,13 @@ render() {
           </thead>
 
           <tbody>
-            {this.props.foods.map(({id, name, type, quantity, unit, expiration}) => (
-              <tr key={id}>
-                <td>{name}</td>
-                <td>{type}</td>
-                <td>{quantity}</td>
-                <td>{unit}</td>
-                <td>{expiration}</td>                
+            {data.map((foods) => (
+              <tr key={foods.id}>
+                <td>{foods.name}</td>
+                <td>{foods.type}</td>
+                <td>{foods.quantity}</td>
+                <td>{foods.unit}</td>
+                <td>{foods.expiration}</td>                
                 <td>
                 <button
                   type="button"
@@ -106,17 +104,6 @@ render() {
       </div>
     </div>);
 }
-}
-PantryTable.propTypes = {
-    fetchFoods: PropTypes.func.isRequired,
-    foods:PropTypes.array.isRequired
-};
-
-const mapStateToProps = state =>({
-    foods: state.foods.pantry
-});
-
-export default connect (mapStateToProps, {fetchFoods}) (PantryTable);
   
 
 
