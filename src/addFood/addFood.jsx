@@ -1,77 +1,46 @@
-import React, { Component } from 'react';
+import { mapValuesSeries } from 'async';
+import { mapValues } from 'lodash';
+import React, { useState } from 'react';
 import { Button, Modal } from "react-bootstrap";
-import {PropTypes} from 'prop-types';
-import { connect } from 'react-redux';
-import { createFood } from '../actions/foodActions';
+import { usePostFoodMutation } from '../features/pantryApiSlice';
+import useForm from '../useForm/useForm';
 
-class AddFood extends Component {    
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            type: '',
-            quantity: '',
-            unit: '',
-            expiration: '',
-            alert: 0,
-            setShow: false
-          };
-          this.handleShow = this.handleShow.bind(this);
-          this.handleClose = this.handleClose.bind(this);
-    }    
+
+
+const AddFood = (props) => {   
     
-    onChange(e){
-        this.setState({
-            [e.target.name]: e.target.value
-        })
+    const [show, setShow] = useState(false);      
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const [postFood, {data}] =usePostFoodMutation();
+    const{values, handleChange, handleSubmit} = useForm(foodForm);
+    function foodForm() {
+        postFood(values);
+        console.log(values);
     }
-
-    onSubmit (e){
-        e.preventDefault();
-        const food = {
-            name: this.state.name,
-            type: this.state.type,
-            quantity: this.state.quantity,
-            unit: this.state.unit,
-            expiration: this.state.expiration,
-            alert: 0
-        }
-        this.props.createFood(food);        
-    }
- 
-    handleClose (e){
-        this.setState({
-            setShow:false})
-            }
-
-        handleShow (e) {
-        this.setState({
-            setShow:true})
-            }
-
-    render() { 
+     
              return (       
          <>
-             <Button variant="warning" setShow = {this.setShow} onClick={(e) => this.handleShow(e)}>
+             <Button variant="warning" onClick={handleShow}>
               add food to your pantry
             </Button>
       
-            <Modal setShow={this.setShow} onClick={(e) => this.handleClose(e)}>
+            <Modal show={show} onHide={handleClose}>
               <Modal.Header>
                 <Modal.Title>add food to mypantry</Modal.Title>
               </Modal.Header>
               <Modal.Body>
               <div>
-              <form className="form-inline" onSubmit={(e) => this.onSubmit(e)}>
+              <form className="form-inline" onSubmit={handleSubmit}>
               <h2>new food</h2>
               <br />
               <div className="form-group">
                 <select
                   className="custom-select custom-select-lg"
-                  value={this.state.type}
+                  value={values.type}
                   type="text"
                   name= "type"
-                  onChange={(e) => this.onChange(e)}
+                  onChange={handleChange}
                 >
                   <option placeholder>Select a Category</option>
                   <option value="Beverages">Beverages</option>
@@ -90,39 +59,41 @@ class AddFood extends Component {
                 type="text"
                 name="name"
                 placeholder="Name"
-                onChange={(e) => this.onChange(e)}
-                value={this.state.name}
+                onChange={handleChange}
+                value={values.name}
               />
     
               <input
                 type="number"
                 name="quantity"
                 placeholder="quantity"
-                onChange={(e) => this.onChange(e)}
-                value={this.state.quantity}
+                onChange={handleChange}
+                value={values.quantity}
               />
     
               <input
                 type="text"
                 name="unit"
                 placeholder="unit"
-                onChange={(e) => this.onChange(e)}
-                value={this.state.unit}  
+                onChange={handleChange}
+                value={values.unit}  
                         />
               <input
                 type="date"
                 name="expiration"
                 placeholder="expiration"
-                onChange={(e) => this.onChange(e)}
-                value={this.state.expiration}  
+                onChange={handleChange}
+                value={values.expiration}  
                         />
+             
+
     
               <button type="submit"> Submit </button>
             </form>
               </div>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={(e)=>this.handleClose(e)}>
+                <Button variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
                
@@ -131,10 +102,5 @@ class AddFood extends Component {
           </> 
         );
       }  
-        }
-AddFood.propTypes = {
-    createFood: PropTypes.func.isRequired
-};
-
  
-export default connect(null, { createFood })(AddFood);
+export default AddFood;

@@ -9,6 +9,7 @@ import { useSelector} from 'react-redux'
 import {useFetchFoodQuery} from './features/pantryApiSlice'
 
 
+
 function App() {
  
 
@@ -16,10 +17,7 @@ function App() {
   const {pantry = []} = useFetchFoodQuery();
 
 
-  // useEffect(() => {
-  //   axios.get('http://127.0.0.1:8000/pantry/')
-  //   .then(response => setFoods(response.data)
-  //   )}, [])
+
 
 
 

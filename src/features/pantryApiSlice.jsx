@@ -13,16 +13,35 @@ export const apiPantrySlice = createApi({
                     return '/pantry/';
                 }
             }),
-
+            
             updateFood: builder.mutation({
                 query: (body) =>({
-                    url: `pantry/${body.id}`,
+                    url: `pantry/${body.id}/`,
                     method: "PUT",
                     body,
+                })                           
+            }),
+            postFood: builder.mutation({
+                query: (body) =>({
+                    url: `pantry/`,
+                    method: "POST",
+                    body, 
                 })
-            })
+            }),
+            deleteFood: builder.mutation({
+                query: (body) =>({
+                    url: `pantry/${body.id}/`,
+                    method: "DELETE"                    
+                })
+            }),
+            patchFood: builder.mutation({
+                query: (body) =>({
+                    url: `pantry/${body.id}/`,
+                    method: "PATCH"                   
+                })
+            }),
         }
     }
 })
 
-export const {useFetchFoodQuery, useUpdateFoodMutation} = apiPantrySlice;
+export const {useFetchFoodQuery, useUpdateFoodMutation, useDeleteFoodMutation, usePatchFoodMutation, usePostFoodMutation} = apiPantrySlice;

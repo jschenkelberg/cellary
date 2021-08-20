@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import axios from 'axios';
-import useForm from './useForm/useForm';
+import useForm from '../useForm/useForm';
 import 'bootstrap/dist/css/bootstrap.css';
 
 
@@ -21,18 +21,7 @@ const EditModal = (props) => {
         console.log(values);
     }
     
-    const updateFood = async (values) => {        
-        const res = await axios
-          .put(`http://127.0.0.1:8000/pantry/${props.foods.id}/`, values,
-          )
-          .then((res) => {
-            console.log(res);
-          
-            // this.props.getMerch(merchId)
-            
-          })     
-          .catch((err) => alert(err));
-      };
+    
     return (
       <>
         <Button variant="warning" onClick={handleShow}>

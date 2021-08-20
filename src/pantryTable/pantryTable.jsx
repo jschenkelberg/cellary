@@ -42,7 +42,7 @@ export function PantryTable() {
       <div className="col-md-8">
   
         <h3>my pantry</h3>
-        <button type="button" onClick={() => this.closeTable()}>
+        <button type="button" onClick={() => closeTable()}>
                   view/hide</button>
       <div id="myDIV">
         <table className="table table-striped">
