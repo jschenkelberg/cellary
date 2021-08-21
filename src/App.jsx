@@ -10,34 +10,48 @@ import {useFetchFoodQuery} from './features/pantryApiSlice'
 
 
 
-function App() {
- 
+function App() { 
 
   const dispatch = store.dispatch;
-  const {pantry = []} = useFetchFoodQuery();
+  const {data = []} = useFetchFoodQuery();
+  
+  const [pantry, setPantry] = useState([])
+
+// useEffect(() => {
+//   getFoods();
+// })
+
+    const getFoods = async () => {
+      await axios.get(`http://127.0.0.1:8000/pantry/`)
+      .then(response => setPantry(response.data))    
+    }
+
+  
+  const deleteFood = async (id) => {
+    await axios.delete(`http://127.0.0.1:8000/pantry/${id}/`)
+    .then (response => console.log(response));     
+  }
+
+  //   const [food, setFood] = useState([
+  //     {name: '',
+  //     type: '',
+  //     quantity: '',
+  //     unit: '',
+  //     expiration:'',
+  //     alert: 0
+  //   }
+  //   ])    
 
 
 
-
-
-
-  // const deleteFood = (id) => {
-  //     axios.delete(`http://127.0.0.1:8000/pantry/${id}/`)        
-  //     .then(res => {
-  //         console.log(res);
-  //         console.log(res.data);      
-  //       })
-  //       console.log(this);
-        
-  //     }
       
 
   
   return (
     <div>
     <TitleBar />
-    <AddFood />
-    <PantryTable />      
+    
+    <PantryTable  />      
     </div>
   );
 }

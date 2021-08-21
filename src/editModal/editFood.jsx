@@ -4,22 +4,24 @@ import { Button, Modal } from "react-bootstrap";
 import axios from 'axios';
 import useForm from '../useForm/useForm';
 import 'bootstrap/dist/css/bootstrap.css';
+import { useUpdateFoodMutation } from '../features/pantryApiSlice';
 
 
 
+const EditFood = (props) => {
+ 
 
-
-
-const EditModal = (props) => {
     const [show, setShow] = useState(false);  
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);   
+    const handleShow = () => setShow(true);
+    const [updateFood, {data}] =useUpdateFoodMutation();    
     const{values, handleChange, handleSubmit} = useForm(editFood);
     function editFood() {
         updateFood(values);
         // props.getAllItems();                
         console.log(values);
     }
+    
     
     
     return (
@@ -37,10 +39,20 @@ const EditModal = (props) => {
       
           <div className="form-group">     
 
+
           <input
             type="text"
             name="name"
-            placeholder={props.foods.name}
+            //placeholder={props.data.name}
+            onChange={handleChange}
+            value={props.food.id}
+          />
+
+
+          <input
+            type="text"
+            name="name"
+            //placeholder={props.data.name}
             onChange={handleChange}
             value={values.name}
           />
@@ -48,7 +60,7 @@ const EditModal = (props) => {
           <input
             type="text"
             name="type"
-            placeholder={props.foods.type}
+            // placeholder={data.type}
             onChange={handleChange}
             value={values.type}
           />
@@ -56,21 +68,21 @@ const EditModal = (props) => {
           <input
             type="text"
             name="quantity"
-            placeholder={props.foods.quantity}
+            // placeholder={data.quantity}
             onChange={handleChange}
             value={values.quantity}  
                     />
           <input
             type="text"
             name="unit"
-            placeholder={props.foods.unit}
+            // placeholder={data.unit}
             onChange={handleChange}
             value={values.unit}  
                     />
           <input
             type="date"
             name="expiration"
-            placeholder={props.foods.expiration}
+            // placeholder={data.expiration}
             onChange={handleChange}
             value={values.expiration}  
                     />
@@ -93,4 +105,4 @@ const EditModal = (props) => {
   }
 
 
-  export default EditModal;
+  export default EditFood;

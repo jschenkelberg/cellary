@@ -1,5 +1,3 @@
-import { mapValuesSeries } from 'async';
-import { mapValues } from 'lodash';
 import React, { useState } from 'react';
 import { Button, Modal } from "react-bootstrap";
 import { usePostFoodMutation } from '../features/pantryApiSlice';
@@ -7,7 +5,7 @@ import useForm from '../useForm/useForm';
 
 
 
-const AddFood = (props) => {   
+const AddFood = () => {   
     
     const [show, setShow] = useState(false);      
     const handleClose = () => setShow(false);

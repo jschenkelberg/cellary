@@ -6,37 +6,42 @@ export const apiPantrySlice = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: `http://127.0.0.1:8000/`,
     }),
+    tagTypes: ['data'],
     endpoints (builder) {
         return {
             fetchFood: builder.query({
                 query() {
                     return '/pantry/';
-                }
+                },
+                providesTags: (result, error, arg) => ['data'], 
             }),
             
             updateFood: builder.mutation({
                 query: (body) =>({
                     url: `pantry/${body.id}/`,
                     method: "PUT",
-                    body,
-                })                           
+                    body,                    
+                }),
+                invalidatesTags: ['data'],                           
             }),
             postFood: builder.mutation({
                 query: (body) =>({
                     url: `pantry/`,
                     method: "POST",
                     body, 
-                })
+                }),
+                invalidatesTags: ['data'],
             }),
             deleteFood: builder.mutation({
-                query: (body) =>({
-                    url: `pantry/${body.id}/`,
+                query: (id) =>({
+                    url: `pantry/${id}/`,
                     method: "DELETE"                    
-                })
+                }),
+                invalidatesTags: ['data'],
             }),
             patchFood: builder.mutation({
-                query: (body) =>({
-                    url: `pantry/${body.id}/`,
+                query: (id) =>({
+                    url: `pantry/${id}/`,
                     method: "PATCH"                   
                 })
             }),
