@@ -3,12 +3,14 @@ import './pantryTable.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import { store } from '../app/store'
 import { useFetchFoodQuery, usePatchFoodMutation, useUpdateFoodMutation } from '../features/pantryApiSlice';
+import { useFetchRecipeQuery } from '../features/recipesApiSlice';
 import { useDeleteFoodMutation } from '../features/pantryApiSlice';
 import AddFood from '../addFood/addFood';
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import useForm from '../useForm/useForm';
 import 'bootstrap/dist/css/bootstrap.css';
+import axios from 'axios';
 
 
 
@@ -17,10 +19,12 @@ import 'bootstrap/dist/css/bootstrap.css';
 export function PantryTable() {
     const dispatch = store.dispatch
     const { data = [] } = useFetchFoodQuery();
+    const [ recipes, setRecipes]= useState([]);
     const [deleteFood, {pantry}] = useDeleteFoodMutation(); 
     const [show, setShow] = useState(false);  
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    //const [getRecipe, {recipeList}] = useFetchRecipeQuery();
     const [updateFood, {updatePantry}] =useUpdateFoodMutation();    
     const{values, handleChange, handleSubmit} = useForm(editFood);
     const [alertFood, {alertPantry}] = usePatchFoodMutation();
@@ -30,14 +34,19 @@ export function PantryTable() {
         console.log(values);
 }
 
+const getRecipesByFoodName = async (name) => {
+  await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&query=${name}&includeIngredients=${name}&instructionsRequired=true&fillIngredients=true&addRecipeInformation=true&ignorePantry=true`)
+  .then(response => setRecipes(response.data))    
+}
+
   
-    // const [search, setSearch] = useState("");
-    // const filterItems = props.foods.filter(
-    //   (food) =>
-    //     food.name.toLowerCase().includes(search.toLowerCase()) ||
-    //     food.type.toLowerCase().includes(search.toLowerCase()) ||
-    //     food.expiration.toLowerCase().includes(search.toLowerCase())
-    // );
+    const [search, setSearch] = useState("");
+    const filterItems = data.filter(
+      (food) =>
+        food.name.toLowerCase().includes(search.toLowerCase()) ||
+        food.type.toLowerCase().includes(search.toLowerCase()) ||
+        food.expiration.toLowerCase().includes(search.toLowerCase())
+    );
 
   const closeTable = () => {
         var x = document.getElementById("myDIV");
@@ -61,6 +70,10 @@ export function PantryTable() {
         <button type="button" onClick={() => closeTable()}>
                   view/hide</button>
       <div id="myDIV">
+      <input
+        placeholder="search..."
+        onChange={(event) => setSearch(event.target.value)}
+      ></input>
         <table className="table table-striped">
           <thead className="thead-dark">
             <tr>
@@ -89,7 +102,7 @@ export function PantryTable() {
                 <button
                   type="button"
                   className="btn btn-outline-warning"
-                //   onClick={() => deleteFlashcard(collection, id)}
+                  onClick={() => getRecipesByFoodName(foods.name)}
                 >
                   search
                 </button>
