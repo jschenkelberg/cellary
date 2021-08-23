@@ -2,21 +2,33 @@ import React, { useState } from 'react';
 import { Button, Modal } from "react-bootstrap";
 import { usePostFoodMutation } from '../features/pantryApiSlice';
 import useForm from '../useForm/useForm';
+import axios from 'axios';
 
 
 
-const AddFood = () => {   
+const AddFood = (getFoods) => {   
     
     const [show, setShow] = useState(false);      
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [postFood, {data}] =usePostFoodMutation();
+    //const [postFood, {data}] =usePostFoodMutation();
     const{values, handleChange, handleSubmit} = useForm(foodForm);
     function foodForm() {
         postFood(values);
         console.log(values);
     }
-     
+    
+    const postFood = async (values) => {
+      await  axios.post(
+         `http://127.0.0.1:8000/pantry/`,
+         values
+       ).then(res => {
+           console.log(res);           
+       }).catch(err => console.log(err));
+       getFoods();
+     };
+   
+
              return (       
          <>
              <Button variant="warning" onClick={handleShow}>

@@ -9,8 +9,8 @@
 //     endpoints (builder) {
 //         return {
 //             fetchRecipe: builder.query({
-//                 query(body) {
-//                     return `/recipes/findByIngredients?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&ingredients=${body.name}&number6&limitLicense=true&ranking=1&ignorePantry=Trueantry/`;
+//                 query(name) {
+//                     return `/recipes/complexSearch?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&query=${name}&includeIngredients=${name}&instructionsRequired=true&fillIngredients=true&addRecipeInformation=true&ignorePantry=true`;
 //                 },
 //             }),
             

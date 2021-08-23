@@ -1,52 +1,54 @@
 import React from 'react';
 import './pantryTable.css'
 import 'bootstrap/dist/css/bootstrap.css';
-import { store } from '../app/store'
-import { useFetchFoodQuery, usePatchFoodMutation, useUpdateFoodMutation } from '../features/pantryApiSlice';
-import { useFetchRecipeQuery } from '../features/recipesApiSlice';
-import { useDeleteFoodMutation } from '../features/pantryApiSlice';
-import AddFood from '../addFood/addFood';
+
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import useForm from '../useForm/useForm';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
+import DisplayRecipes from '../displayRecipes/displayRecipes';
 
 
 
 
 
-export function PantryTable() {
-    const dispatch = store.dispatch
-    const { data = [] } = useFetchFoodQuery();
-    const [ recipes, setRecipes]= useState([]);
-    const [deleteFood, {pantry}] = useDeleteFoodMutation(); 
+export function PantryTable({pantry, recipes, getFoods, alertFood, deleteFood, getRecipesbyFoodName}) {
+    
+    
     const [show, setShow] = useState(false);  
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    //const [getRecipe, {recipeList}] = useFetchRecipeQuery();
-    const [updateFood, {updatePantry}] =useUpdateFoodMutation();    
     const{values, handleChange, handleSubmit} = useForm(editFood);
-    const [alertFood, {alertPantry}] = usePatchFoodMutation();
+        
     function editFood() {
-        updateFood(values);
-        // props.getAllItems();                
+        updateFood(values);                        
         console.log(values);
-}
+    }
 
-const getRecipesByFoodName = async (name) => {
-  await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&query=${name}&includeIngredients=${name}&instructionsRequired=true&fillIngredients=true&addRecipeInformation=true&ignorePantry=true`)
-  .then(response => setRecipes(response.data))    
-}
+    const updateFood = async (values) => {
+      await  axios.put(
+         `http://127.0.0.1:8000/pantry/${values.id}/`,
+         values
+       ).then(res => {
+           console.log(res);
+           getFoods()
+       }).catch(err => console.log(err))       
+     };
 
-  
+
     const [search, setSearch] = useState("");
-    const filterItems = data.filter(
-      (food) =>
-        food.name.toLowerCase().includes(search.toLowerCase()) ||
-        food.type.toLowerCase().includes(search.toLowerCase()) ||
-        food.expiration.toLowerCase().includes(search.toLowerCase())
+    const filterItems = pantry.filter(
+      (items) =>
+        items.name.toLowerCase().includes(search.toLowerCase()) ||
+        items.type.toLowerCase().includes(search.toLowerCase()) ||
+        items.quantity.toLowerCase().includes(search.toLowerCase()) ||
+        items.expiration.toLowerCase().includes(search.toLowerCase())
     );
+
+    
+
+    
 
   const closeTable = () => {
         var x = document.getElementById("myDIV");
@@ -65,15 +67,14 @@ const getRecipesByFoodName = async (name) => {
       <div className="col-md-8">
       <div className="row">
         <h3>my pantry</h3>
-        <AddFood />
+        
         </div>
         <button type="button" onClick={() => closeTable()}>
                   view/hide</button>
       <div id="myDIV">
       <input
         placeholder="search..."
-        onChange={(event) => setSearch(event.target.value)}
-      ></input>
+        onChange={(event) => setSearch(event.target.value)}      ></input>
         <table className="table table-striped">
           <thead className="thead-dark">
             <tr>
@@ -91,18 +92,18 @@ const getRecipesByFoodName = async (name) => {
           </thead>
 
           <tbody>
-            {data.map((foods) => (
-              <tr key={foods.id}>
-                <td>{foods.name}</td>
-                <td>{foods.type}</td>
-                <td>{foods.quantity}</td>
-                <td>{foods.unit}</td>
-                <td>{foods.expiration}</td>                
+            {filterItems.map(({id, name, type, quantity,unit,expiration}) => (
+              <tr key={id}>
+                <td>{name}</td>
+                <td>{type}</td>
+                <td>{quantity}</td>
+                <td>{unit}</td>
+                <td>{expiration}</td>                
                 <td>
                 <button
                   type="button"
                   className="btn btn-outline-warning"
-                  onClick={() => getRecipesByFoodName(foods.name)}
+                  onClick={() => getRecipesbyFoodName(name)}
                 >
                   search
                 </button>
@@ -124,7 +125,7 @@ const getRecipesByFoodName = async (name) => {
           <input
             type="number"
             name="id"
-            placeholder={foods.id}
+            placeholder={id}
             onChange={handleChange}                   
             value={values.id}
           />  
@@ -132,8 +133,8 @@ const getRecipesByFoodName = async (name) => {
           <input
             type="text"
             name="name"
-            id={foods.name}
-            placeholder={foods.name}
+            id={name}
+            placeholder={name}
             onChange={handleChange}
             value={values.name}
           />
@@ -141,7 +142,7 @@ const getRecipesByFoodName = async (name) => {
           <input
             type="text"
             name="type"
-            placeholder={foods.type}
+            placeholder={type}
             onChange={handleChange}
             value={values.type}
           />
@@ -149,21 +150,21 @@ const getRecipesByFoodName = async (name) => {
           <input
             type="text"
             name="quantity"
-            placeholder={foods.quantity}
+            placeholder={quantity}
             onChange={handleChange}
             value={values.quantity}  
                     />
           <input
             type="text"
             name="unit"
-            placeholder={foods.unit}
+            placeholder={unit}
             onChange={handleChange}
             value={values.unit}  
                     />
           <input
             type="date"
             name="expiration"
-            placeholder={foods.expiration}
+            placeholder={expiration}
             onChange={handleChange}
             value={values.expiration}  
                     />
@@ -186,7 +187,7 @@ const getRecipesByFoodName = async (name) => {
                 <button
                   type="button"
                   className="btn btn-outline-warning"
-                  onClick={() => deleteFood(foods.id)}
+                  onClick={() => deleteFood(id)}
                 >
                   remove
                 </button>
@@ -195,13 +196,11 @@ const getRecipesByFoodName = async (name) => {
                 <button
                   type="button"
                   className="btn btn-outline-warning"
-                  onClick={() => alertFood(foods.id)}
-
-               
+                  onClick={() => alertFood(id)}               
                 >
                   alert
                 </button>
-                </td>
+                </td> 
               </tr>
             ))}
           </tbody>
@@ -209,7 +208,10 @@ const getRecipesByFoodName = async (name) => {
        </div>
         <div className="col-md-2" />
       </div>
-    </div>);
+      <DisplayRecipes recipes={recipes} />     
+    </div>
+
+    );
 }
 
 
