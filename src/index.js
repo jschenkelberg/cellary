@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
-//import {store} from './app/store';
-//import {Provider} from "react-redux";
+import { BrowserRouter as Router} from 'react-router-dom';
+
 
 ReactDOM.render(
-  //<Provider store={store}>
+<Router>
   <React.StrictMode>
     <App />
   </React.StrictMode>,  
-  //</Provider>,
+</Router>,
   document.getElementById('root')
 );
 

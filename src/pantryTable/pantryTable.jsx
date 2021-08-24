@@ -1,7 +1,7 @@
 import React from 'react';
 import './pantryTable.css'
 import 'bootstrap/dist/css/bootstrap.css';
-
+import AddFood from '../addFood/addFood';
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import useForm from '../useForm/useForm';
@@ -67,7 +67,7 @@ export function PantryTable({pantry, recipes, getFoods, alertFood, deleteFood, g
       <div className="col-md-8">
       <div className="row">
         <h3>my pantry</h3>
-        
+        <AddFood getFoods={getFoods} pantry={pantry} />   
         </div>
         <button type="button" onClick={() => closeTable()}>
                   view/hide</button>
@@ -92,7 +92,7 @@ export function PantryTable({pantry, recipes, getFoods, alertFood, deleteFood, g
           </thead>
 
           <tbody>
-            {filterItems.map(({id, name, type, quantity,unit,expiration}) => (
+            {filterItems.map(({id, name,type,quantity,unit,expiration}) => (
               <tr key={id}>
                 <td>{name}</td>
                 <td>{type}</td>
@@ -208,7 +208,7 @@ export function PantryTable({pantry, recipes, getFoods, alertFood, deleteFood, g
        </div>
         <div className="col-md-2" />
       </div>
-      <DisplayRecipes recipes={recipes} />     
+      {/* <DisplayRecipes recipes={recipes} getRecipesbyFoodName={getRecipesbyFoodName} /> */}
     </div>
 
     );

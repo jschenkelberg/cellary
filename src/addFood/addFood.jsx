@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Modal } from "react-bootstrap";
-import { usePostFoodMutation } from '../features/pantryApiSlice';
 import useForm from '../useForm/useForm';
 import axios from 'axios';
 
 
 
-const AddFood = (getFoods) => {   
+const AddFood = ({getFoods}) => {   
     
     const [show, setShow] = useState(false);      
     const handleClose = () => setShow(false);
