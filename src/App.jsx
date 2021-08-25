@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 import AddFood from './addFood/addFood';
 import DisplayRecipes from './displayRecipes/displayRecipes';
+import SendEmail from './sendEmail';
 
 
 function App() { 
@@ -75,6 +76,7 @@ function App() {
   return (
     <div className="App">
      <TitleBar />
+     <SendEmail />
      <Switch>
      <Route path='/DisplayRecipes' render={props=> <DisplayRecipes {...props} pantry={pantry} recipes={recipes} recipeDetails={recipeDetails} getRecipeDetails={getRecipeDetails}/>}/>
         <Route path='/'>           

@@ -14,13 +14,13 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-const express = require("express");
-require("dotenv").config();
+// const express = require("express");
+// require("dotenv").config();
 
-const app = express();
-const port = process.env.PORT || 3000;
+// const app = express();
+// const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log(`Server is running on the port ${port}.`);
-});
+// app.listen(port, () => {
+//   console.log(`Server is running on the port ${port}.`);
+// });
 
