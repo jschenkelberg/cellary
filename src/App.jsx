@@ -10,7 +10,7 @@ import SendEmail from './sendEmail';
 
 
 function App() { 
-  const [recipeDetails,setRecipeDetails] = useState ([])
+  // const [recipeDetails,setRecipeDetails] = useState ([])
   // const dispatch = store.dispatch;
   // const {data = []} = useFetchFoodQuery();  
   const [pantry, setPantry] = useState([
@@ -54,11 +54,7 @@ function App() {
 
     
 
-    const getRecipeDetails = async (id) => {
-      await axios.get(
-        `https://api.spoonacular.com/recipes/${id}/information?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&includeNutrition=false`)
-        .then(response =>setRecipeDetails(response.data));        
-      };
+ 
 
     useEffect(() => {
       axios.get('http://127.0.0.1:8000/pantry/')
@@ -74,7 +70,7 @@ function App() {
     <div className="App">
      <TitleBar />     
      <Switch>
-     <Route path='/DisplayRecipes' render={props=> <DisplayRecipes {...props} pantry={pantry} recipes={recipes} recipeDetails={recipeDetails} getRecipeDetails={getRecipeDetails}/>}/>
+     <Route path='/DisplayRecipes' render={props=> <DisplayRecipes {...props} pantry={pantry} recipes={recipes}/>}/>
         <Route path='/'>           
         <PantryTable alertFood={alertFood} getFoods={getFoods} deleteFood={deleteFood} pantry={pantry} recipes={recipes} getRecipesbyFoodName={getRecipesbyFoodName} />
         </Route> 
