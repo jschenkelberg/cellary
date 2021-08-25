@@ -27,10 +27,7 @@ function App() {
     {id:"",
     title: "",
   }
-  ]);
-
-
-  
+  ]);  
 
   const getFoods = async () => {
     await axios.get(`http://127.0.0.1:8000/pantry/`)
@@ -75,8 +72,7 @@ function App() {
   
   return (
     <div className="App">
-     <TitleBar />
-     <SendEmail />
+     <TitleBar />     
      <Switch>
      <Route path='/DisplayRecipes' render={props=> <DisplayRecipes {...props} pantry={pantry} recipes={recipes} recipeDetails={recipeDetails} getRecipeDetails={getRecipeDetails}/>}/>
         <Route path='/'>           

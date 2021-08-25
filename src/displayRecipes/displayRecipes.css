@@ -1,9 +1,26 @@
+
+.arrow {
+  border: solid ghostwhite;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
 .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 500px;
   border-radius: 5px;
-  padding-top: 10px;
+  padding-top: 10px; 
 }
 
 .card:hover {
@@ -18,6 +35,7 @@ img {
 .container {
   padding: auto;
 }
+
 b {
   padding: auto;
   text-align: center;
@@ -25,3 +43,28 @@ b {
 ul{
   padding: 0rem;
 }
+.prev {
+  float: left;
+  border-radius: 4px;
+}
+
+.next {
+  float: right;
+  border-radius: 4px;
+}
+
+button {
+  display:inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  width:auto;
+  text-align: center;
+  padding: 10px 20px;
+  background-color: #DB7C26;
+  border-radius: 10px;
+  color: ghostwhite;
+}
+
+
+
