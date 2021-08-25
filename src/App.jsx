@@ -76,7 +76,7 @@ function App() {
     <div className="App">
      <TitleBar />
      <Switch>
-     <Route path='/DisplayRecipes' render={props=> <DisplayRecipes {...props} recipes={recipes} recipeDetails={recipeDetails} getRecipeDetails={getRecipeDetails}/>}/>
+     <Route path='/DisplayRecipes' render={props=> <DisplayRecipes {...props} pantry={pantry} recipes={recipes} recipeDetails={recipeDetails} getRecipeDetails={getRecipeDetails}/>}/>
         <Route path='/'>           
         <PantryTable alertFood={alertFood} getFoods={getFoods} deleteFood={deleteFood} pantry={pantry} recipes={recipes} getRecipesbyFoodName={getRecipesbyFoodName} />
         </Route> 
