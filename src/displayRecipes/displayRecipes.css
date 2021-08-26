@@ -66,5 +66,8 @@ button {
   color: ghostwhite;
 }
 
-
+.row {
+  display: flex;
+  align-items: center;
+} 
 

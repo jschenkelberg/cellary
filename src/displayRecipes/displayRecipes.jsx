@@ -7,20 +7,27 @@ import axios from 'axios';
 function DisplayRecipes({
   recipes,
   pantry,
-  getRecipesByFoodName, 
-    missedIngredients,
-}) {
+  getRecipesByFoodName,
+  }) 
+  
+  {
 
 const [recipeDetails,setRecipeDetails] = useState([]);
+
 
   const getRecipeDetails = async () => {
     let id = recipes[counter].id
     await axios.get(
       `https://api.spoonacular.com/recipes/${id}/information?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&includeNutrition=false`)
-      .then(response =>setRecipeDetails(response.data));        
+      .then(response =>setRecipeDetails(response.data));              
     };
-  function sendEmail(e) {
 
+function openModal(){
+  getRecipeDetails();
+  handleShow();
+} 
+
+  function sendEmail(e) {
     e.preventDefault();
     emailjs
       .sendForm(
@@ -67,6 +74,7 @@ const [recipeDetails,setRecipeDetails] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+
   // let groceryList = recipes[counter].missedIngredients.map(function(groceryItems){
   //   return(
   //     <ul>{groceryItems.originalString}</ul>
@@ -78,7 +86,7 @@ const [recipeDetails,setRecipeDetails] = useState([]);
   // let groceryList = 
 
   function extractRecipeNameToString(groceryItems){
-    console.log("Grocery Items Param: ",groceryItems)
+    //console.log("Grocery Items Param: ",groceryItems)
     let textString = ""
     for(let i=0; i < groceryItems.length - 1; i++){
         textString += groceryItems[i].originalString + '\n'
@@ -86,11 +94,12 @@ const [recipeDetails,setRecipeDetails] = useState([]);
     return textString;
   }
 
-  const handleClick2= ()=> {
-    console.log("**",recipes[counter].missedIngredients)
-    let textResult = extractRecipeNameToString(recipes[counter].missedIngredients)
-    console.log("TextResults: ", textResult)
-  }
+  // const handleClick2= ()=> {
+  //   console.log("**",recipes[counter].missedIngredients)
+  //   let textResult = extractRecipeNameToString(recipes[counter].missedIngredients)
+  //   console.log("TextResults: ", textResult)
+  //}
+
   const getText = () => {
     let textResult = extractRecipeNameToString(recipes[counter].missedIngredients)
     return textResult
@@ -100,14 +109,24 @@ const [recipeDetails,setRecipeDetails] = useState([]);
     <div>
       <div className="col=md-4"></div>
       <div className="row">
-        <div className="col-md-4"></div>
+        <div className="col-md-4">
+          <div className="d-flex justify-content-center">
+            <Button
+              variant="warning"
+              className="prev"
+              onClick={() => goToPreviousRecipeCard()}
+            >
+              <i class="arrow left"></i>
+            </Button>
+          </div>
+        </div>
         <div className="col-md-4">
           <div className="center">
             <div className="card">
               <img
                 src={recipes[counter].image}
                 className="card-img-top"
-                alt="recipe image"
+                alt="depiction of recipe"
               ></img>
               <div class="card-body">
                 <h4 class="card-title">{recipes[counter].title}</h4>
@@ -120,18 +139,27 @@ const [recipeDetails,setRecipeDetails] = useState([]);
                     return <ul>{missingIngredient.originalString}</ul>;
                   })}
                 </p>
-                <Button variant="btn btn-warning" onClick={getRecipeDetails}>see recipe details</Button>
-                <Button variant="btn btn-warning" onClick={handleShow}>
-                  create grocery list
+             
+
+                {/* create grocery list modal */}
+                <Button variant="btn btn-warning" onClick={openModal}>
+                  see details
                 </Button>
 
                 <Modal show={show} onHide={handleClose}>
                   <Modal.Header>
                     <Modal.Title>
-                      grocery list for {recipes[counter].title}
+                      {recipes[counter].title}
                     </Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
+                  <p>
+                    <b>Recipe Instructions</b><br/>
+                    {recipeDetails.instructions}
+                    </p>
+                    <p>                      
+                      <a href={recipeDetails.sourceUrl} target="_blank" rel="noopener noreferrer">Click Here for Full Details</a>
+                    </p>
                     <p>
                       <b>Missing Ingredients</b>
                       {recipes[counter].missedIngredients.map(function (
@@ -142,7 +170,11 @@ const [recipeDetails,setRecipeDetails] = useState([]);
                     </p>
                     <form className="form-group" onSubmit={sendEmail}>
                       <input type="hidden" name="contact_number" />
-                      <input type="hidden" name="recipe" value={recipes[counter].title} />
+                      <input
+                        type="hidden"
+                        name="recipe"
+                        value={recipes[counter].title}
+                      />
 
                       <input
                         type="email"
@@ -155,8 +187,9 @@ const [recipeDetails,setRecipeDetails] = useState([]);
                         placeholer="copy list here"
                         name="message"
                       />
-                      <Button variant="warning" type="submit" value="Send">Send List</Button>
-                 
+                      <Button variant="warning" type="submit" value="Send">
+                        Email List
+                      </Button>
                     </form>
                   </Modal.Body>
                   <Modal.Footer>
@@ -167,9 +200,6 @@ const [recipeDetails,setRecipeDetails] = useState([]);
                 </Modal>
               </div>
             </div>
-            <button className="prev" onClick={() => goToPreviousRecipeCard()}>
-              <i class="arrow left"></i>
-            </button>
             <button className="next" onClick={() => goToNextRecipeCard()}>
               <i class="arrow right"></i>
             </button>
@@ -178,6 +208,11 @@ const [recipeDetails,setRecipeDetails] = useState([]);
             </h5>
           </div>
         </div>
+      </div>
+      <div className="col=md-4">
+        <button className="next" onClick={() => goToNextRecipeCard()}>
+          <i class="arrow right"></i>
+        </button>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import { Button, Modal } from "react-bootstrap";
 import useForm from "../useForm/useForm";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 export function PantryTable({
   pantry,
@@ -15,11 +16,13 @@ export function PantryTable({
   alertFood,
   deleteFood,
   getRecipesbyFoodName,
+  getAllFoodNames
 }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const { values, handleChange, handleSubmit } = useForm(editFood);
+  const [pantryRecipes, setPantryRecipes] = useState([]);
 
   function editFood() {
     updateFood(values, pantry.id);
@@ -35,6 +38,12 @@ export function PantryTable({
       })
       .catch((err) => console.log(err));
   };
+  const getRecipesbyAllFood = async (name) => {
+    await axios.get(
+      `https://api.spoonacular.com/recipes//findByIngredients?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&ingredients=${name}&number=12&limitLicense=true&ranking=1&ignorePantry=True`)
+      .then(response =>setPantryRecipes(response.data));
+      console.log(setPantryRecipes);        
+    };     
 
 
   const [search, setSearch] = useState("");
@@ -54,6 +63,26 @@ export function PantryTable({
       x.style.display = "none";
     }
   };
+
+  // function searchButton(){
+  //   let name = pantry.name;
+  //   getRecipesbyFoodName(name);
+  //   <Redirect to='/DisplayRecipes'/>;
+  // } 
+
+  // function getAllFoodNames(pantry){
+  //   let foodNames = ""
+  //   for(let i=0; i < pantry.length -1; i++){
+  //     foodNames += pantry[i].name + ','
+  //   }
+  //   return foodNames;    
+  // }
+
+  // const getNames =() => {
+  //   let nameResult = getAllFoodNames(pantry.name)
+  //   return nameResult;
+  //   console.log(nameResult);
+  // }
 
   return (
     <div className="row">
@@ -105,8 +134,9 @@ export function PantryTable({
                       <button
                         type="button"
                         className="btn btn-outline-warning"
-                        onClick={() => getRecipesbyFoodName(name)}
-                      >
+                        onClick={() => getRecipesbyFoodName(name)}>
+                          
+                      
                         search
                       </button>
                     </td>
@@ -207,6 +237,7 @@ export function PantryTable({
               )}
             </tbody>
           </table>
+        <Button variant="warning">search all food</Button>
         </div>
         <div className="col-md-2" />
       </div>
