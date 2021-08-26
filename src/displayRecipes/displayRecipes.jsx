@@ -209,10 +209,7 @@ function openModal(){
           </div>
         </div>
       </div>
-      <div className="col=md-4">
-        <button className="next" onClick={() => goToNextRecipeCard()}>
-          <i class="arrow right"></i>
-        </button>
+      <div className="col=md-4">  
       </div>
     </div>
   );

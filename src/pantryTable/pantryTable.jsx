@@ -8,12 +8,16 @@ import useForm from "../useForm/useForm";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import { FormControlLabel,Switch } from "@material-ui/core";
+import { useHistory } from 'react-router-dom';
+
 
 export function PantryTable({
   pantry,
   recipes,
   getFoods,
-  alertFood,
+  alertFoodOn,
+  alertFoodOff,
   deleteFood,
   getRecipesbyFoodName,
   getRecipesbyAllFood  
@@ -23,8 +27,13 @@ export function PantryTable({
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const { values, handleChange, handleSubmit } = useForm(editFood);
-  const [pantryRecipes, setPantryRecipes] = useState([]);
   const [checked, setChecked] = useState(false);
+  
+  let history = useHistory();
+
+  const redirect = () => {
+    history.push('/DisplayRecipes')
+  }
 
   function editFood() {
     updateFood(values, pantry.id);
@@ -40,19 +49,6 @@ export function PantryTable({
       })
       .catch((err) => console.log(err));
   };
-
-
-  // function getAllNames(){
-  // let getAllFoodNames = pantry.map(foodName=>{   
-  //   foodName.name + ","
-  // })
-  //   return getAllFoodNames; 
-  // }
-
-  // const searchAllNames = () =>{
-  //   let searchAll = getAllNames(pantry.name)
-  //   return searchAll
-  // } 
 
   const [search, setSearch] = useState("");
   const filterItems = pantry.filter(
@@ -77,30 +73,10 @@ export function PantryTable({
     }
   };
 
-  // function searchButton(){
-  //   let name = pantry.name;
-  //   getRecipesbyFoodName(name);
-  //   <Redirect to='/DisplayRecipes'/>;
-  // } 
-
-  // function getAllFoodNames(pantry){
-  //   let foodNames = ""
-  //   for(let i=0; i < pantry.length -1; i++){
-  //     foodNames += pantry[i].name + ','
-  //   }
-  //   return foodNames;    
-  // }
-
-  // const getNames =() => {
-  //   let nameResult = getAllFoodNames(pantry.name)
-  //   return nameResult;
-  //   console.log(nameResult);
-  // }
-
   return (
     
     <div className="row">
-       <Button variant="warning"onClick={() => getRecipesbyAllFood()}>search all food</Button>
+       <Button variant="warning"onClick={() => {getRecipesbyAllFood();redirect()}}>search all food</Button>
       <div className="col-md-2" />
       <div className="col-md-8">
         <div className="row">
@@ -118,11 +94,7 @@ export function PantryTable({
           <input
             placeholder="filter by "
             onChange={(event) => setSearch(event.target.value)}
-          ></input>
-          <input
-            type='checkbox'
-            onChange={(event) => setFilter(event.target.value)}
-          ></input>
+          ></input>     
           <table className="table table-striped">
             <thead className="thead-dark">
               <tr>
@@ -133,10 +105,10 @@ export function PantryTable({
                 <th scope="col">uom</th>
                 <th scope="col">best by</th>           
 
+                <th colspan="5n">actions</th>
+                {/* <th scope="col"></th>
                 <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col"></th> */}
               </tr>
             </thead>
 
@@ -155,7 +127,7 @@ export function PantryTable({
                       <button
                         type="button"
                         className="btn btn-warning"
-                        onClick={() => getRecipesbyFoodName(name)}>                        
+                        onClick={() => {getRecipesbyFoodName(name);redirect()}}>                        
                       
                         search
                       </button>
@@ -173,13 +145,13 @@ export function PantryTable({
                           <Modal.Title>edit food</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                          <form className="form-inline" onSubmit={handleSubmit}>
+                          <form onSubmit={handleSubmit}>
                             <div className="form-group">
             
                               <input
                               type="number"
                               name="id"
-                              placeholder={id}
+                              placeholder="id"
                               onChange={handleChange}                   
                               value={values.id}
                               />  
@@ -188,7 +160,7 @@ export function PantryTable({
                                 type="text"
                                 name="name"
                                 id={name}
-                                placeholder={name}
+                                placeholder="name"
                                 onChange={handleChange}
                                 value={values.name}
                               />
@@ -196,7 +168,7 @@ export function PantryTable({
                               <input
                                 type="text"
                                 name="type"
-                                placeholder={type}
+                                placeholder="type"
                                 onChange={handleChange}
                                 value={values.type}
                               />
@@ -204,7 +176,7 @@ export function PantryTable({
                               <input
                                 type="text"
                                 name="quantity"
-                                placeholder={quantity}
+                                placeholder="quantity"
                                 onChange={handleChange}
                                 value={values.quantity}
                               />
@@ -244,23 +216,25 @@ export function PantryTable({
                       </button>
                     </td>
                     <td>
-                    {/* <ToggleButton
-          id="toggle-check"
-          type="checkbox"
-          variant="warning"
-          checked={checked}
-          value="1"
-          onChange={(e) => setChecked(e.currentTarget.checked)}
-        >
-          alert
-        </ToggleButton> */}
+                    {/* <FormControlLabel
+    control={<Switch checked={alertFoodOn(id)} onChange={alertFoodOff(id)} />}
+    label="Alert"
+  /> */}
                       <button
                         type="button"
                         className="btn btn-warning"
-                        onClick={() => alertFood(id)}
+                        onClick={() => alertFoodOn(id)}
                       >
-                        alert
+                        alert on
                       </button>
+                      <button
+                        type="button"
+                        className="btn btn-warning"
+                        onClick={() => alertFoodOff(id)}
+                      >
+                        alert off
+                      </button>
+                      
                     </td>
                   </tr>
                 )

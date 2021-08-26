@@ -1,4 +1,11 @@
 td {
     font-weight: bolder;
     background-color: ghostwhite;
+    text-align: center;
     }
+
+table {
+    border: 5px solid black;
+    border-radius: 5px;
+    text-align: center;
+}
