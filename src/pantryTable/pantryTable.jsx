@@ -3,7 +3,7 @@ import "./pantryTable.css";
 import "bootstrap/dist/css/bootstrap.css";
 import AddFood from "../addFood/addFood";
 import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { ToggleButton, Button, Modal } from "react-bootstrap";
 import useForm from "../useForm/useForm";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
@@ -16,13 +16,15 @@ export function PantryTable({
   alertFood,
   deleteFood,
   getRecipesbyFoodName,
-  getAllFoodNames
-}) {
+  getRecipesbyAllFood  
+}) 
+{
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const { values, handleChange, handleSubmit } = useForm(editFood);
   const [pantryRecipes, setPantryRecipes] = useState([]);
+  const [checked, setChecked] = useState(false);
 
   function editFood() {
     updateFood(values, pantry.id);
@@ -38,13 +40,19 @@ export function PantryTable({
       })
       .catch((err) => console.log(err));
   };
-  const getRecipesbyAllFood = async (name) => {
-    await axios.get(
-      `https://api.spoonacular.com/recipes//findByIngredients?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&ingredients=${name}&number=12&limitLicense=true&ranking=1&ignorePantry=True`)
-      .then(response =>setPantryRecipes(response.data));
-      console.log(setPantryRecipes);        
-    };     
 
+
+  // function getAllNames(){
+  // let getAllFoodNames = pantry.map(foodName=>{   
+  //   foodName.name + ","
+  // })
+  //   return getAllFoodNames; 
+  // }
+
+  // const searchAllNames = () =>{
+  //   let searchAll = getAllNames(pantry.name)
+  //   return searchAll
+  // } 
 
   const [search, setSearch] = useState("");
   const filterItems = pantry.filter(
@@ -53,6 +61,11 @@ export function PantryTable({
       items.type.toLowerCase().includes(search.toLowerCase()) ||
       //items.quantity.toLowerCase().includes(search.toLowerCase()) ||
       items.expiration.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const [filter,setFilter] = useState("");
+  const alertFilter = pantry.filter(
+    (items) => items.alert == 1
   );
 
   const closeTable = () => {
@@ -85,7 +98,9 @@ export function PantryTable({
   // }
 
   return (
+    
     <div className="row">
+       <Button variant="warning"onClick={() => getRecipesbyAllFood()}>search all food</Button>
       <div className="col-md-2" />
       <div className="col-md-8">
         <div className="row">
@@ -101,8 +116,12 @@ export function PantryTable({
         </button>
         <div id="myDIV">
           <input
-            placeholder="search..."
+            placeholder="filter by "
             onChange={(event) => setSearch(event.target.value)}
+          ></input>
+          <input
+            type='checkbox'
+            onChange={(event) => setFilter(event.target.value)}
           ></input>
           <table className="table table-striped">
             <thead className="thead-dark">
@@ -112,7 +131,8 @@ export function PantryTable({
                 <th scope="col">type</th>
                 <th scope="col">quantity</th>
                 <th scope="col">uom</th>
-                <th scope="col">best by date</th>
+                <th scope="col">best by</th>           
+
                 <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -122,7 +142,7 @@ export function PantryTable({
 
             <tbody>
               {filterItems.map(
-                ({ id, name, type, quantity, unit, expiration }) => (
+                ({ id, name, type, quantity, unit, expiration,alert }) => (
                   <tr key={id}>
                     <td>{id}</td>
                     <td>{name}</td>
@@ -130,19 +150,19 @@ export function PantryTable({
                     <td>{quantity}</td>
                     <td>{unit}</td>
                     <td>{expiration}</td>
+                    
                     <td>
                       <button
                         type="button"
-                        className="btn btn-outline-warning"
-                        onClick={() => getRecipesbyFoodName(name)}>
-                          
+                        className="btn btn-warning"
+                        onClick={() => getRecipesbyFoodName(name)}>                        
                       
                         search
                       </button>
                     </td>
                     <td>
                       <Button
-                        variant="btn btn-outline-warning"
+                        variant="btn btn-warning"
                         onClick={handleShow}
                       >
                         edit
@@ -217,16 +237,26 @@ export function PantryTable({
                     <td>
                       <button
                         type="button"
-                        className="btn btn-outline-warning"
+                        className="btn btn-warning"
                         onClick={() => deleteFood(id)}
                       >
                         remove
                       </button>
                     </td>
                     <td>
+                    {/* <ToggleButton
+          id="toggle-check"
+          type="checkbox"
+          variant="warning"
+          checked={checked}
+          value="1"
+          onChange={(e) => setChecked(e.currentTarget.checked)}
+        >
+          alert
+        </ToggleButton> */}
                       <button
                         type="button"
-                        className="btn btn-outline-warning"
+                        className="btn btn-warning"
                         onClick={() => alertFood(id)}
                       >
                         alert
@@ -236,8 +266,7 @@ export function PantryTable({
                 )
               )}
             </tbody>
-          </table>
-        <Button variant="warning">search all food</Button>
+          </table>     
         </div>
         <div className="col-md-2" />
       </div>

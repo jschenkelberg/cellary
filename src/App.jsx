@@ -51,7 +51,13 @@ function App() {
       .then(response =>setRecipes(response.data));     
       console.log(setRecipes);        
     };
-
+    const getRecipesbyAllFood = async () => {
+      let searchAll = pantry.map(el => el.name + ',')
+      await axios.get(
+        `https://api.spoonacular.com/recipes//findByIngredients?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&ingredients=${searchAll}&number=12&limitLicense=true&ranking=1&ignorePantry=True`)
+        .then(response =>setRecipes(response.data));
+        console.log(setRecipes);        
+      };     
  
     useEffect(() => {
       axios.get('http://127.0.0.1:8000/pantry/')
@@ -71,7 +77,7 @@ function App() {
        
        </Route>
         <Route exact path='/'>           
-        <PantryTable alertFood={alertFood} getFoods={getFoods} deleteFood={deleteFood} pantry={pantry} recipes={recipes} getRecipesbyFoodName={getRecipesbyFoodName} />
+        <PantryTable alertFood={alertFood} getFoods={getFoods} deleteFood={deleteFood} pantry={pantry} recipes={recipes} getRecipesbyFoodName={getRecipesbyFoodName} getRecipesbyAllFood={getRecipesbyAllFood}/>
         {/* {recipes != null ? <Redirect to="/DisplayRecipes" /> : <PantryTable />} */}
         </Route> 
         <Route path='/DisplayRecipes' render={props=> <DisplayRecipes {...props} pantry={pantry} recipes={recipes}/>}>

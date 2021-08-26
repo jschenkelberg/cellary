@@ -18,6 +18,8 @@ function TitleBar(_props) {
       <Link to='/'>my pantry</Link>
       <Nav.Link href='/DisplayRecipes'>recipes</Nav.Link>
       <Link to='/DisplayRecipes'>recipes</Link>               
+      <Nav.Link href='/DisplayRecipes'>alerts</Nav.Link>
+      <Link to='/DisplayRecipes'>alerts</Link>               
     </Nav>
     </Container>
   </Navbar>

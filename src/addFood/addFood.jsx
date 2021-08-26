@@ -97,12 +97,12 @@ const AddFood = ({getFoods}) => {
              
 
     
-              <Button variant="warning"> Submit </Button>
+              <Button variant="warning" type="submit"> Submit </Button>
             </form>
               </div>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="warning" onClick={handleClose}>
+                <Button variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
                
