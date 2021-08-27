@@ -2,31 +2,28 @@ import { useState } from "react";
 import "./displayRecipes.css";
 import { Button, Modal } from "react-bootstrap";
 import emailjs from "emailjs-com";
-import axios from 'axios';
+import axios from "axios";
 
-function DisplayRecipes({
-  recipes,
-  pantry,
-  getRecipesByFoodName,
-  }) 
-  
-  {
+function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
+  const [recipeDetails, setRecipeDetails] = useState([]);
 
-const [recipeDetails,setRecipeDetails] = useState([]);
-
-
+  //gets recipe details to display in modal
   const getRecipeDetails = async () => {
-    let id = recipes[counter].id
-    await axios.get(
-      `https://api.spoonacular.com/recipes/${id}/information?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&includeNutrition=false`)
-      .then(response =>setRecipeDetails(response.data));              
-    };
+    let id = recipes[counter].id;
+    await axios
+      .get(
+        `https://api.spoonacular.com/recipes/${id}/information?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&includeNutrition=false`
+      )
+      .then((response) => setRecipeDetails(response.data));
+  };
 
-function openModal(){
-  getRecipeDetails();
-  handleShow();
-} 
+  //opens modal and gets recipe details
+  function openModal() {
+    getRecipeDetails();
+    handleShow();
+  }
 
+  //emailjs send email function
   function sendEmail(e) {
     e.preventDefault();
     emailjs
@@ -45,13 +42,8 @@ function openModal(){
         }
       );
   }
-  const handleChange = (e) => {
-    recipes(e.target.value);
-    {
-      adjustCounter(0);
-    }
-  };
 
+  // counter hook to control recipe display
   let [counter, adjustCounter] = useState(0);
 
   const goToNextRecipeCard = () => {
@@ -70,40 +62,27 @@ function openModal(){
     adjustCounter(tempNumber);
   };
 
+  //modal open & close
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-
-  // let groceryList = recipes[counter].missedIngredients.map(function(groceryItems){
-  //   return(
-  //     <ul>{groceryItems.originalString}</ul>
-  //   )
-  // })
-
-  // let groceryItems = recipes.missedIngredients
-
-  // let groceryList = 
-
-  function extractRecipeNameToString(groceryItems){
+  //converts object to a string to insert grocery list into email
+  function extractRecipeNameToString(groceryItems) {
     //console.log("Grocery Items Param: ",groceryItems)
-    let textString = ""
-    for(let i=0; i < groceryItems.length - 1; i++){
-        textString += groceryItems[i].originalString + '\n'
+    let textString = "";
+    for (let i = 0; i < groceryItems.length - 1; i++) {
+      textString += groceryItems[i].originalString + "\n";
     }
     return textString;
   }
 
-  // const handleClick2= ()=> {
-  //   console.log("**",recipes[counter].missedIngredients)
-  //   let textResult = extractRecipeNameToString(recipes[counter].missedIngredients)
-  //   console.log("TextResults: ", textResult)
-  //}
-
   const getText = () => {
-    let textResult = extractRecipeNameToString(recipes[counter].missedIngredients)
-    return textResult
-  }
+    let textResult = extractRecipeNameToString(
+      recipes[counter].missedIngredients
+    );
+    return textResult;
+  };
 
   return (
     <div>
@@ -131,13 +110,13 @@ function openModal(){
               <div class="card-body">
                 <h4 class="card-title">{recipes[counter].title}</h4>
                 <p>
-                <b>Ingredients from your pantry</b>
-                {recipes[counter].usedIngredients.map(function (
+                  <b>Ingredients from your pantry</b>
+                  {recipes[counter].usedIngredients.map(function (
                     usedIngredients
                   ) {
                     return <ul>{usedIngredients.originalString}</ul>;
                   })}
-</p>
+                </p>
                 <p>
                   <b>Missing Ingredients</b>
                   <br />
@@ -147,7 +126,6 @@ function openModal(){
                     return <ul>{missingIngredient.originalString}</ul>;
                   })}
                 </p>
-             
 
                 {/* create grocery list modal */}
                 <Button variant="btn btn-warning" onClick={openModal}>
@@ -156,21 +134,25 @@ function openModal(){
 
                 <Modal show={show} onHide={handleClose}>
                   <Modal.Header>
-                    <Modal.Title>
-                      {recipes[counter].title}
-                    </Modal.Title>
+                    <Modal.Title>{recipes[counter].title}</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                  <p>
-                    <b>Recipe Instructions</b><br/>
-                    {recipeDetails.summary}
-                    </p>
-                    <p>                      
-                      <a href={recipeDetails.sourceUrl} target="_blank" rel="noopener noreferrer">Click Here for Full Details</a>
-                    </p>
-                   
                     <p>
-                    
+                      <b>Recipe Instructions</b>
+                      <br />
+                      {recipeDetails.summary}
+                    </p>
+                    <p>
+                      <a
+                        href={recipeDetails.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Click Here for Full Details
+                      </a>
+                    </p>
+
+                    <p>
                       <b>Missing Ingredients</b>
                       {recipes[counter].missedIngredients.map(function (
                         missingIngredient
@@ -224,8 +206,7 @@ function openModal(){
           </div>
         </div>
       </div>
-      <div className="col=md-4">  
-      </div>
+      <div className="col=md-4"></div>
     </div>
   );
 }

@@ -3,12 +3,10 @@ import "./pantryTable.css";
 import "bootstrap/dist/css/bootstrap.css";
 import AddFood from "../addFood/addFood";
 import { useState } from "react";
-import { ButtonGroup, Button, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import useForm from "../useForm/useForm";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
-import { FormControlLabel,Switch } from "@material-ui/core";
 import { useHistory } from 'react-router-dom';
 
 
@@ -23,24 +21,29 @@ export function PantryTable({
   getRecipesbyAllFood  
 }) 
 {
+  //hook for open & close modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+//hook to useForm hook
   const { values, handleChange, handleSubmit } = useForm(editFood);
-  const [checked, setChecked] = useState(false);
+  
 
   
+  //creates redirect to recipe page after recipe search from pantry
   let history = useHistory();
-
   const redirect = () => {
     history.push('/DisplayRecipes')
   }
 
+  //sends edit values to useForm hook
   function editFood() {
     updateFood(values, pantry.id);
     console.log(values);
   }
 
+  // put request for editing food entry
   const updateFood = async (values) => {
     await axios
       .put(`http://127.0.0.1:8000/pantry/${values.id}/`, values)
@@ -51,6 +54,7 @@ export function PantryTable({
       .catch((err) => console.log(err));
   };
 
+  //logic for filter bar
   const [search, setSearch] = useState("");
   const filterItems = pantry.filter(
     (items) =>
@@ -59,7 +63,7 @@ export function PantryTable({
       items.expiration.toLowerCase().includes(search.toLowerCase())
   );
 
-
+//table render with conversion for alert boolean values
 let renderedTable = filterItems.map(({id,name, type, quantity, unit, expiration, alert})=>{
   let convertedAlert =String(alert);
   let onOffAlert = convertedAlert === "true"? "on" : "off";
@@ -76,9 +80,9 @@ let renderedTable = filterItems.map(({id,name, type, quantity, unit, expiration,
                       <button
                         type="button"
                         className="btn btn-warning"
-                        onClick={() => {getRecipesbyFoodName(name);redirect()}}>                        
+                        onClick={() => {getRecipesbyFoodName(name);redirect()}}>                   
                       
-                        search
+                        get recipes
                       </button>
                     </td>
                     <td>
@@ -189,7 +193,7 @@ let renderedTable = filterItems.map(({id,name, type, quantity, unit, expiration,
 
 
 
-
+//open/hide table view
   const closeTable = () => {
     var x = document.getElementById("myDIV");
     if (x.style.display === "none") {
@@ -231,15 +235,9 @@ let renderedTable = filterItems.map(({id,name, type, quantity, unit, expiration,
                 <th scope="col">uom</th>
                 <th scope="col">best by</th>          
                 <th colSpan="3">actions</th>
-                <th colSpan="3">alerts</th>
-               
-
-                {/* <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th> */}
+                <th colSpan="3">alerts</th>                        
               </tr>
             </thead>
-
             <tbody>
     {renderedTable}
             </tbody>

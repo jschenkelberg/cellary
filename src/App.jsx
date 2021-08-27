@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import DisplayRecipes from "./displayRecipes/displayRecipes";
+import EmailAlertForm from "./emailAlertForm/emailAlertForm";
 
 function App() {
   const [pantry, setPantry] = useState([
@@ -106,8 +107,6 @@ function App() {
   }, []);
   console.log(pantry);
 
-  // useEffect(() => {
-  //   getFoods()}, [])
 
   return (
     <div className="App">
@@ -135,6 +134,13 @@ function App() {
           path="/DisplayRecipes"
           render={(props) => (
             <DisplayRecipes {...props} pantry={pantry} recipes={recipes} />
+          )}
+        ></Route>
+         <Route
+          path="/alerts"
+          render={(props) => (
+            <EmailAlertForm {...props} pantry={pantry} alertFoodOn={alertFoodOn}  getFoods={getFoods}
+            alertFoodOff={alertFoodOff} />
           )}
         ></Route>
       </Switch>
