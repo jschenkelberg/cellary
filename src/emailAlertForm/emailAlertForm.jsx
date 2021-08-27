@@ -120,8 +120,8 @@ const getText = () => {
 
         <input type="email" placeholder="type email here" name="user_email" />
         
-        <textarea
-          type="text"
+        <input
+          type="hidden"
           value={getText()}          
           name="message"
         />

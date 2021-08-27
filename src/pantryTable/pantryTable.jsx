@@ -167,26 +167,7 @@ let renderedTable = filterItems.map(({id,name, type, quantity, unit, expiration,
                       >
                         remove
                       </button>
-                    </td>
-                    <td>
- 
-
-                      <button
-                        type="button"
-                        className="btn btn-warning"
-                        onClick={() => alertFoodOn(id)}
-                      >
-                        on
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-warning"
-                        onClick={() => alertFoodOff(id)}
-                      >
-                        off
-                      </button>                      
-                    </td>
-                    <td>{onOffAlert}</td>
+                    </td>                    
                     </tr>
   );
   });
@@ -235,7 +216,7 @@ let renderedTable = filterItems.map(({id,name, type, quantity, unit, expiration,
                 <th scope="col">uom</th>
                 <th scope="col">best by</th>          
                 <th colSpan="3">actions</th>
-                <th colSpan="3">alerts</th>                        
+                                 
               </tr>
             </thead>
             <tbody>
