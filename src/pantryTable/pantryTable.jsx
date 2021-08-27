@@ -3,7 +3,7 @@ import "./pantryTable.css";
 import "bootstrap/dist/css/bootstrap.css";
 import AddFood from "../addFood/addFood";
 import { useState } from "react";
-import { ToggleButton, Button, Modal } from "react-bootstrap";
+import { ButtonGroup, Button, Modal } from "react-bootstrap";
 import useForm from "../useForm/useForm";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
@@ -28,6 +28,7 @@ export function PantryTable({
   const handleShow = () => setShow(true);
   const { values, handleChange, handleSubmit } = useForm(editFood);
   const [checked, setChecked] = useState(false);
+
   
   let history = useHistory();
 
@@ -55,74 +56,22 @@ export function PantryTable({
     (items) =>
       items.name.toLowerCase().includes(search.toLowerCase()) ||
       items.type.toLowerCase().includes(search.toLowerCase()) ||
-      //items.quantity.toLowerCase().includes(search.toLowerCase()) ||
       items.expiration.toLowerCase().includes(search.toLowerCase())
   );
 
-  const [filter,setFilter] = useState("");
-  const alertFilter = pantry.filter(
-    (items) => items.alert == 1
-  );
 
-  const closeTable = () => {
-    var x = document.getElementById("myDIV");
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
-    }
-  };
-
+let renderedTable = filterItems.map(({id,name, type, quantity, unit, expiration, alert})=>{
+  let convertedAlert =String(alert);
+  let onOffAlert = convertedAlert === "true"? "on" : "off";
   return (
-    
-    <div className="row">
-       <Button variant="warning"onClick={() => {getRecipesbyAllFood();redirect()}}>search all food</Button>
-      <div className="col-md-2" />
-      <div className="col-md-8">
-        <div className="row">
-          <h3>my pantry</h3>
-          <AddFood getFoods={getFoods} pantry={pantry} />
-        </div>
-        <button
-          type="button"
-          className="btn btn-warning"
-          onClick={() => closeTable()}
-        >
-          view/hide pantry table
-        </button>
-        <div id="myDIV">
-          <input
-            placeholder="filter by "
-            onChange={(event) => setSearch(event.target.value)}
-          ></input>     
-          <table className="table table-striped">
-            <thead className="thead-dark">
-              <tr>
-                <th scope="col">id</th>
-                <th scope="col">name</th>
-                <th scope="col">type</th>
-                <th scope="col">quantity</th>
-                <th scope="col">uom</th>
-                <th scope="col">best by</th>           
-
-                <th colspan="5n">actions</th>
-                {/* <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th> */}
-              </tr>
-            </thead>
-
-            <tbody>
-              {filterItems.map(
-                ({ id, name, type, quantity, unit, expiration,alert }) => (
-                  <tr key={id}>
+     <tr key={id}>
                     <td>{id}</td>
                     <td>{name}</td>
                     <td>{type}</td>
                     <td>{quantity}</td>
                     <td>{unit}</td>
                     <td>{expiration}</td>
-                    
+                   
                     <td>
                       <button
                         type="button"
@@ -148,13 +97,13 @@ export function PantryTable({
                           <form onSubmit={handleSubmit}>
                             <div className="form-group">
             
-                              <input
+                              {/* <input
                               type="number"
                               name="id"
                               placeholder="id"
                               onChange={handleChange}                   
                               value={values.id}
-                              />  
+                              />   */}
 
                               <input
                                 type="text"
@@ -216,29 +165,83 @@ export function PantryTable({
                       </button>
                     </td>
                     <td>
-                    {/* <FormControlLabel
-    control={<Switch checked={alertFoodOn(id)} onChange={alertFoodOff(id)} />}
-    label="Alert"
-  /> */}
+ 
+
                       <button
                         type="button"
                         className="btn btn-warning"
                         onClick={() => alertFoodOn(id)}
                       >
-                        alert on
+                        on
                       </button>
                       <button
                         type="button"
                         className="btn btn-warning"
                         onClick={() => alertFoodOff(id)}
                       >
-                        alert off
-                      </button>
-                      
+                        off
+                      </button>                      
                     </td>
-                  </tr>
-                )
-              )}
+                    <td>{onOffAlert}</td>
+                    </tr>
+  );
+  });
+
+
+
+
+  const closeTable = () => {
+    var x = document.getElementById("myDIV");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  };
+
+  return (
+    
+    <div className="row">
+       <Button variant="warning"onClick={() => {getRecipesbyAllFood();redirect()}}>recipe search(all food)</Button>
+      <div className="col-md-2" />
+      <div className="col-md-8">
+        <div className="row">
+          <h3>my pantry</h3>
+          <AddFood getFoods={getFoods} pantry={pantry} />
+        </div>
+        <button
+          type="button"
+          className="btn btn-warning"
+          onClick={() => closeTable()}
+        >
+          view/hide pantry table
+        </button>
+        <div id="myDIV">
+          <input
+            placeholder="filter by "
+            onChange={(event) => setSearch(event.target.value)}
+          ></input>     
+          <table className="table table-striped">
+            <thead className="thead-dark">
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">type</th>
+                <th scope="col">quantity</th>
+                <th scope="col">uom</th>
+                <th scope="col">best by</th>          
+                <th colSpan="3">actions</th>
+                <th colSpan="3">alerts</th>
+               
+
+                {/* <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th> */}
+              </tr>
+            </thead>
+
+            <tbody>
+    {renderedTable}
             </tbody>
           </table>     
         </div>

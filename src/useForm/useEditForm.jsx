@@ -4,7 +4,7 @@ const useEditForm =(callback, id)=> {
 const [values, setValues]=useState({});
 const handleChange =(event)=> {
     event.persist();
-    setValues({...values,[event.target.name] : event.target.value, alert:0});
+    setValues({...values,id,[event.target.name] : event.target.value, alert:0});
 
 }
 const handleSubmit =(event)=> {

@@ -27,9 +27,9 @@ function App() {
   const [recipes, setRecipes] = useState([{
     
       "id": 1,
-      "title": "search from my pantry to start",
-      "image": "https://spoonacular.com/recipeImages/991625-312x231.jpg",
-      "imageType": "jpg",
+      "title": "loading...",
+      "image": "https://media.giphy.com/media/Nlo7V40tWGLYu3uR7x/giphy.gif?cid=790b7611a059a3759eb4e1ebb9ea154989ff65ba2ddbef64&rid=giphy.gif&ct=g",
+      "imageType": "gif",
       "usedIngredientCount": 3,
       "missedIngredientCount": 1,
       "missedIngredients": [
@@ -71,27 +71,29 @@ function App() {
     await axios
       .patch(`http://127.0.0.1:8000/alert/${id}/`)
       .then((response) => console.log(response));
+      getFoods();
   };
   const alertFoodOff = async (id) => {
     await axios
       .put(`http://127.0.0.1:8000/alert/${id}/`)
       .then((response) => console.log(response));
+      getFoods();
   };
 
   const getRecipesbyFoodName = async (name) => {
     await axios
       .get(
-        `https://api.spoonacular.com/recipes//findByIngredients?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&ingredients=${name}&number=20&limitLicense=true&ranking=1&ignorePantry=True`
+        `https://api.spoonacular.com/recipes//findByIngredients?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&ingredients=${name}&number=20&limitLicense=true&ranking=2&ignorePantry=True`
       )
       .then((response) => setRecipes(response.data));
     console.log(setRecipes);
   };
 
   const getRecipesbyAllFood = async () => {
-    let searchAll = pantry.map((el) => el.name + ",");
+    let searchAll = pantry.map((el) => el.name);
     await axios
       .get(
-        `https://api.spoonacular.com/recipes//findByIngredients?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&ingredients=${searchAll}&number=20&limitLicense=true&ranking=2&ignorePantry=True`
+        `https://api.spoonacular.com/recipes//findByIngredients?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&ingredients=${searchAll}&number=20&limitLicense=true&ranking=1&ignorePantry=True`
       )
       .then((response) => setRecipes(response.data));
     console.log(setRecipes);

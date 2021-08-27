@@ -131,6 +131,14 @@ function openModal(){
               <div class="card-body">
                 <h4 class="card-title">{recipes[counter].title}</h4>
                 <p>
+                <b>Ingredients from your pantry</b>
+                {recipes[counter].usedIngredients.map(function (
+                    usedIngredients
+                  ) {
+                    return <ul>{usedIngredients.originalString}</ul>;
+                  })}
+</p>
+                <p>
                   <b>Missing Ingredients</b>
                   <br />
                   {recipes[counter].missedIngredients.map(function (
@@ -155,12 +163,14 @@ function openModal(){
                   <Modal.Body>
                   <p>
                     <b>Recipe Instructions</b><br/>
-                    {recipeDetails.instructions}
+                    {recipeDetails.summary}
                     </p>
                     <p>                      
                       <a href={recipeDetails.sourceUrl} target="_blank" rel="noopener noreferrer">Click Here for Full Details</a>
                     </p>
+                   
                     <p>
+                    
                       <b>Missing Ingredients</b>
                       {recipes[counter].missedIngredients.map(function (
                         missingIngredient
@@ -174,6 +184,11 @@ function openModal(){
                         type="hidden"
                         name="recipe"
                         value={recipes[counter].title}
+                      />
+                      <input
+                        type="hidden"
+                        name="link"
+                        value={recipeDetails.sourceUrl}
                       />
 
                       <input
