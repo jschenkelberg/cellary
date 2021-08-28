@@ -2,15 +2,27 @@ import React from "react";
 import "./pantryTable.css";
 import "bootstrap/dist/css/bootstrap.css";
 import AddFood from "../addFood/addFood";
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button, Modal } from "react-bootstrap";
 import useForm from "../useForm/useForm";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
+import { useTable, useFilters, useGlobalFilter, useSortBy, getSortByToggleProps, useRowSelect } from "react-table";
+import { GlobalFilter, DefaultFilterForColumn } from "../Filter/Filter";
+import MaUTable from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 
 export function PantryTable({
+  column,
+  columns,
+  data,
+  onSelectedRows,
+  selectedFlatRows,
   pantry,
   recipes,
   getFoods,
@@ -18,19 +30,43 @@ export function PantryTable({
   alertFoodOff,
   deleteFood,
   getRecipesbyFoodName,
-  getRecipesbyAllFood  
+  getRecipesbyAllFood,
 }) 
+
 {
+  const {
+    getTableProps,
+    getTableBodyProps,
+    getSortByToggleProps,
+    headerGroups,
+    rows,
+    state,
+    visibleColumns,    
+    prepareRow,
+    setGlobalFilter,
+    preGlobalFilteredRows,
+  } = useTable({
+    columns,
+    data,
+    defaultColumn: {Filter: DefaultFilterForColumn},
+  },
+  useFilters, 
+  useGlobalFilter,
+  useSortBy,
+  useRowSelect,
+  );
+  // useEffect(() => {
+  //   onSelectedRows(selectedFlatRows);
+  // }, [selectedFlatRows]);
+
   //hook for open & close modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
 //hook to useForm hook
-  const { values, handleChange, handleSubmit } = useForm(editFood);
-  
+  const { values, handleChange, handleSubmit } = useForm(editFood);  
 
-  
   //creates redirect to recipe page after recipe search from pantry
   let history = useHistory();
   const redirect = () => {
@@ -56,7 +92,7 @@ export function PantryTable({
 
   //logic for filter bar
   const [search, setSearch] = useState("");
-  const filterItems = pantry.filter(
+  const filterItems = data.filter(
     (items) =>
       items.name.toLowerCase().includes(search.toLowerCase()) ||
       items.type.toLowerCase().includes(search.toLowerCase()) ||
@@ -172,8 +208,6 @@ let renderedTable = filterItems.map(({id,name, type, quantity, unit, expiration,
   );
   });
 
-
-
 //open/hide table view
   const closeTable = () => {
     var x = document.getElementById("myDIV");
@@ -183,6 +217,10 @@ let renderedTable = filterItems.map(({id,name, type, quantity, unit, expiration,
       x.style.display = "none";
     }
   };
+
+
+
+
 
   return (
     
@@ -224,8 +262,51 @@ let renderedTable = filterItems.map(({id,name, type, quantity, unit, expiration,
             </tbody>
           </table>     
         </div>
+        <div className="container">
+        <div className="row">
         <div className="col-md-2" />
       </div>
+      <div className="col-md-2" />
+      <div className="col-md-8">
+      
+      <MaUTable {...getTableProps()}>
+      <TableHead>
+        {headerGroups.map(headerGroup => (
+          <TableRow {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th {...column.getHeaderProps(column.getHeaderProps())}>{column.render("Header")}
+              <div>{column.canFilter ? column.render("Filter") : null}</div>
+
+              {/* <GlobalFilter
+             preGlobalFilteredRows={preGlobalFilteredRows}
+             globalFilter={state.globalFilter}
+             setGlobalFilter={setGlobalFilter}
+           /> */}
+             
+              </th>
+            ))}
+
+          </TableRow>
+        ))}
+      </TableHead>
+      <TableBody {...getTableBodyProps()}>
+        {rows.map((row, i) => {
+          prepareRow(row);
+          return (
+            <TableRow {...row.getRowProps()}>
+              {row.cells.map(cell => {
+                return <TableCell {...cell.getCellProps()}>{cell.render("Cell")}</TableCell>;                
+              })}
+              
+            </TableRow>
+          );
+        })}
+      </TableBody>
+    </MaUTable>
+    </div>
+    <div className="col-md-2" />
+    </div>
+    </div>
     </div>
   );
 }

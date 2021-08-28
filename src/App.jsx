@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./App.css";
 import TitleBar from "./titleBar/titleBar";
 import { PantryTable } from "./pantryTable/pantryTable";
@@ -11,9 +11,16 @@ import {
 import axios from "axios";
 import DisplayRecipes from "./displayRecipes/displayRecipes";
 import EmailAlertForm from "./emailAlertForm/emailAlertForm";
+import { SelectColumnFilter } from "./Filter/Filter";
+import { Button, Modal } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/js/all.js";
+
+
 
 function App() {
-  const [pantry, setPantry] = useState([
+  const [data, setData] = useState([
     {
       id: "",
       name: "",
@@ -58,10 +65,12 @@ function App() {
   const getFoods = async () => {
     await axios
       .get(`http://127.0.0.1:8000/pantry/`)
-      .then((response) => setPantry(response.data));
+      .then((response) => setData(response.data));
   };
 
   const deleteFood = async (id) => {
+    
+     
     await axios
       .delete(`http://127.0.0.1:8000/pantry/${id}/`)
       .then((response) => console.log(response));
@@ -90,8 +99,14 @@ function App() {
     console.log(setRecipes);
   };
 
+  const searchRecipesbyFoodNameButton = (cell) =>{
+    return(<button value={cell} onClick={getRecipesbyFoodName()}>
+      {cell}
+    </button>)
+}    
+
   const getRecipesbyAllFood = async () => {
-    let searchAll = pantry.map((el) => el.name);
+    let searchAll = data.map((el) => el.name);
     await axios
       .get(
         `https://api.spoonacular.com/recipes//findByIngredients?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&ingredients=${searchAll}&number=20&limitLicense=true&ranking=1&ignorePantry=True`
@@ -103,9 +118,76 @@ function App() {
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/pantry/")
-      .then((response) => setPantry(response.data));
+      .then((response) => setData(response.data));
   }, []);
-  console.log(pantry);
+  console.log(data);
+
+  const [selectedRows, setSelectedData] = useState([]);
+  // const onSelectedRows = rows => {
+  //   const mappedRows = rows.map(r => r.original);
+  //   setSelectedData([...selectedRows, ...mappedRows]);
+  // };
+
+  const onSubmitHandler = e => {
+    e.preventDefault();
+    console.log("submit: ", selectedRows);
+ };
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: "my pantry",
+        columns: [
+          // {
+          //   Header: "if",
+          //   accessor: "id",         
+          // },
+          {
+            Header: "Name",
+            accessor: "name",         
+          },
+          {
+            Header: "Type",
+            accessor: "type",
+            Filter: SelectColumnFilter,
+            filter: "includes",
+          },
+          {
+            Header: "quantity",
+            accessor: "quantity"
+          },
+          {
+            Header: "units",
+            accessor: "unit",
+          },
+          {
+            Header: "best by",
+            accessor: "expiration",
+            Cell: ({ cell: { value } }) => value || "-"
+          },   
+          {
+            Header: "Actions",
+            accessor: "actions",
+            Cell: (props) => {
+              // const rowIdx = props.values.id;
+              // const rowName = props.values.name;
+              return (
+                <div>
+                  {/* <span onClick={() => getRecipesbyFoodName(rowName)}>
+                    <i className="far fa-edit action mr-2"></i>
+                  </span> */}
+        
+                  <span onClick={() => deleteFood(data.id)}>
+                    <i className="fas fa-trash action"></i>
+                  </span>
+                </div>
+              );
+            },
+          }
+        ]
+      }
+    ]
+  )
 
 
   return (
@@ -115,7 +197,7 @@ function App() {
         <Route
           path="/DisplayRecipes"
           render={(props) => (
-            <DisplayRecipes {...props} pantry={pantry} recipes={recipes} />
+            <DisplayRecipes {...props} data={data} recipes={recipes} />
           )}
         ></Route>
         <Route exact path="/">
@@ -124,22 +206,24 @@ function App() {
             alertFoodOff={alertFoodOff}
             getFoods={getFoods}
             deleteFood={deleteFood}
-            pantry={pantry}
+            data={data}
             recipes={recipes}
             getRecipesbyFoodName={getRecipesbyFoodName}
             getRecipesbyAllFood={getRecipesbyAllFood}
+            columns={columns} data={data}
+        
           />
         </Route>
         <Route
           path="/DisplayRecipes"
           render={(props) => (
-            <DisplayRecipes {...props} pantry={pantry} recipes={recipes} />
+            <DisplayRecipes {...props} data={data} recipes={recipes} />
           )}
         ></Route>
          <Route
           path="/alerts"
           render={(props) => (
-            <EmailAlertForm {...props} pantry={pantry} alertFoodOn={alertFoodOn}  getFoods={getFoods}
+            <EmailAlertForm {...props} data={data} alertFoodOn={alertFoodOn}  getFoods={getFoods}
             alertFoodOff={alertFoodOff} />
           )}
         ></Route>
