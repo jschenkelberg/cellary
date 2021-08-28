@@ -1,52 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './titleBar.css';
-import {Navbar, Container, Nav} from 'react-bootstrap';
-
-
+import React from "react";
+import "./titleBar.css";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
 function TitleBar(_props) {
-    return (
-<React.Fragment>
-<div>
+  return (
+   
+    
+        <Navbar className="navbar navbar-dark bg-green">
+          <Container>
+            <Navbar.Brand><img src="/cellary logo.png" 
+              width="30"
+        height="30"
+        className="d-inline-block align-top"
+        alt="cellary logo"
+            />
+            cellary</Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Nav className="me-auto">
+              <LinkContainer to="/">
+                <Nav.Link>my pantry</Nav.Link>
+              </LinkContainer>
 
-  <Navbar className="titlebar-nav">
-    <Container>
-    <Navbar.Brand href="#home">cellary</Navbar.Brand>
-    <Nav className="me-auto">
-      <Nav.Link to='/'>my pantry</Nav.Link>
-      <Link to='/'>my pantry</Link>
-      <Nav.Link href='/DisplayRecipes'>recipes</Nav.Link>
-      <Link to='/DisplayRecipes'>recipes</Link>               
-      <Nav.Link href='/alerts'>alerts</Nav.Link>
-      <Link to='/alerts'>alerts</Link>               
-    </Nav>
-    </Container>
-  </Navbar>
+              <LinkContainer to="/DisplayRecipes">
+                <Nav.Link>recipes</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/alerts">
+                <Nav.Link>alerts</Nav.Link>
+              </LinkContainer>
+            </Nav>
+          </Container>
+        </Navbar>
 
-  
-</div>
-        {/* <div className="row row-spacer">
-            <div className="col-md-12" style={{padding: 0}}>
-                <nav className="titlebar-nav col-align">                
-                    <h1>cellary</h1>
-                    
-     
-            <ul className="topnav">
-              <li className="nav-item">
-                        <Link to='/'>
-                            my pantry
-                        </Link>
-                        </li>
-            </ul>
-         
-                               
-                    </nav>
-                
-            </div>
-        </div> */}
-        </React.Fragment>
-    );
+    
+  );
 }
 
 export default TitleBar;

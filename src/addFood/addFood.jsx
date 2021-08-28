@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Form, FormGroup, FormControl } from "react-bootstrap";
 import useForm from '../useForm/useForm';
 import axios from 'axios';
+import Fab from '@material-ui/core/Fab';
+
 
 
 
@@ -30,18 +32,15 @@ const AddFood = ({getFoods}) => {
 
              return (       
          <>
-             <Button variant="warning" onClick={handleShow}>
-              add food to your pantry
-            </Button>
+             <Fab size="small" color="primary" aria-label="add" onClick={handleShow}>
++            </Fab>
       
             <Modal show={show} onHide={handleClose}>
-              <Modal.Header>
-                <Modal.Title>add food to mypantry</Modal.Title>
-              </Modal.Header>
+
               <Modal.Body>
               <div>
-              <form className="form-inline" onSubmit={handleSubmit}>
-              <h2>new food</h2>
+              <Form onSubmit={handleSubmit}>
+              <h2>add food to pantry</h2>
               <br />
               <div className="form-group">
                 <select
@@ -52,17 +51,17 @@ const AddFood = ({getFoods}) => {
                   onChange={handleChange}
                 >
                   <option placeholder>Select a Category</option>
-                  <option value="Beverages">Beverages</option>
-                  <option value="Bakery">Bakery</option>
-                  <option value="Canned Goods">Canned Goods</option>
-                  <option value="Dairy">Dairy</option>
-                  <option value="Dry/Baking Goods">Dry/Baking Goods</option>
-                  <option value="Frozen Foods">Frozen Foods</option>
-                  <option value="Meat">Meat</option>
-                  <option value="Produce">Produce</option>
-                  <option value="Other">Other</option>
+                  <option value="beverages">beverages</option>
+                  <option value="bakery">bakery</option>
+                  <option value="canned goods">canned goods</option>
+                  <option value="dairy">dairy</option>
+                  <option value="dry/baking goods">dry/baking goods</option>
+                  <option value="frozen foods">frozen foods</option>
+                  <option value="meat">meat</option>
+                  <option value="produce">produce</option>
+                  <option value="other">other</option>
                 </select>
-              </div>
+              
     
               <input
                 type="text"
@@ -94,11 +93,11 @@ const AddFood = ({getFoods}) => {
                 onChange={handleChange}
                 value={values.expiration}  
                         />
-             
+             </div>
 
     
               <Button variant="warning" type="submit"> Submit </Button>
-            </form>
+            </Form>
               </div>
               </Modal.Body>
               <Modal.Footer>

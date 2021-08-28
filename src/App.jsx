@@ -40,24 +40,8 @@ function App() {
       "imageType": "gif",
       "usedIngredientCount": 3,
       "missedIngredientCount": 1,
-      "missedIngredients": [
-        "{aisle: \"Baking\", amount: 1, id: 2050, image: \"http…}"
-      ],
-      "usedIngredients": [
-        "{aisle: \"Milk, Eggs, Other Dairy\", amount: 4, id: 1…}",
-        "{aisle: \"Milk, Eggs, Other Dairy\", amount: 6, id: 1…}",
-        "{aisle: \"Milk, Eggs, Other Dairy\", amount: 1, id: 1…}"
-      ],
-      "unusedIngredients": [
-        "{aisle: \"Cheese\", amount: 1, id: 1009, image: \"http…}",
-        "{aisle: \"Produce\", amount: 1, id: 9003, image: \"htt…}",
-        "{aisle: \"Meat\", amount: 1, id: 23232, image: \"https…}",
-        "{aisle: \"Meat\", amount: 1, id: 10023572, image: \"ht…}",
-        "{aisle: \"Produce\", amount: 1, id: 11143, image: \"ht…}",
-        "{aisle: \"Seafood\", amount: 1, id: 15270, image: \"ht…}",
-        "{aisle: \"Produce\", amount: 1, id: 9200, image: \"htt…}"
-      ],
-      "likes": 14
+      "missedIngredients": [],
+      "usedIngredients": [],    
     }
 
     ]);

@@ -87,9 +87,7 @@ const getText = () => {
           </tr>
         </thead>
         <tbody>{renderedTable}</tbody>
-      </table>
-
-    
+      </table>    
 
       <form className="form-group" onSubmit={sendEmail}>
         <input type="hidden" name="contact_number" />

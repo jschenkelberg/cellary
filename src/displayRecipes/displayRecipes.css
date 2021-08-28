@@ -40,9 +40,7 @@ b {
   padding: auto;
   text-align: center;
 }
-ul{
-  padding: 0rem;
-}
+
 .prev {
   float: left;
   border-radius: 4px;
@@ -52,18 +50,9 @@ ul{
   float: right;
   border-radius: 4px;
 }
-
-button {
-  display:inline-block;
-  cursor: pointer;
-  text-decoration: none;
-  outline: none;
-  width:auto;
-  text-align: center;
-  padding: 10px 20px;
-  background-color: #DB7C26;
-  border-radius: 10px;
-  color: ghostwhite;
+b{
+  padding-top: 2mm;
+  padding-bottom: 2mm;
 }
 
 .row {

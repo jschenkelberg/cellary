@@ -19,47 +19,15 @@ export function PantryTable({
   getRecipesbyFoodName,
   getRecipesbyAllFood,
 }) {
-  const useSortableData = (items, config = null) => {
-    const [sortConfig, setSortConfig] = useState(config);
 
-    const sortedItems = useMemo(() => {
-      let sortableItems = [...items];
-      if (sortConfig !== null) {
-        sortableItems.sort((a, b) => {
-          if (a[sortConfig.key] < b[sortConfig.key]) {
-            return sortConfig.direction === "ascending" ? -1 : 1;
-          }
-          if (a[sortConfig.key] > b[sortConfig.key]) {
-            return sortConfig.direction === "ascending" ? 1 : -1;
-          }
-          return 0;
-        });
-      }
-      return sortableItems;
-    }, [items, sortConfig]);
-
-    const requestSort = (key) => {
-      let direction = "ascending";
-      if (
-        sortConfig &&
-        sortConfig.key === key &&
-        sortConfig.direction === "ascending"
-      ) {
-        direction = "descending";
-      }
-      setSortConfig({ key, direction });
-    };
-
-    return { items: sortedItems, requestSort, sortConfig };
-  };
-
-  const { items, requestSort, sortConfig } = useSortableData(pantry);
-  const getClassNamesFor = (name) => {
-    if (!sortConfig) {
-      return;
-    }
-    return sortConfig.key === name ? sortConfig.direction : undefined;
-  };
+    //logic for filter bar
+    const [search, setSearch] = useState("");
+    const filterItems = pantry.filter(
+      (items) =>
+        items.name.toLowerCase().includes(search.toLowerCase()) ||
+        items.type.toLowerCase().includes(search.toLowerCase()) ||
+        items.expiration.toLowerCase().includes(search.toLowerCase())
+    );
 
   //hook for open & close modal
   const [show, setShow] = useState(false);
@@ -92,20 +60,61 @@ export function PantryTable({
       .catch((err) => console.log(err));
   };
 
-  //logic for filter bar
-  const [search, setSearch] = useState("");
-  const filterItems = pantry.filter(
-    (items) =>
-      items.name.toLowerCase().includes(search.toLowerCase()) ||
-      items.type.toLowerCase().includes(search.toLowerCase()) ||
-      items.expiration.toLowerCase().includes(search.toLowerCase())
-  );
+  //open/hide table view
+  // const closeTable = () => {
+  //   var x = document.getElementById("myDIV");
+  //   if (x.style.display === "none") {
+  //     x.style.display = "block";
+  //   } else {
+  //     x.style.display = "none";
+  //   }
+  // };
 
-  //table render with conversion for alert boolean values
-  let renderedTable = filterItems.map(
-    ({ id, name, type, quantity, unit, expiration, alert }) => {
-      let convertedAlert = String(alert);
-      let onOffAlert = convertedAlert === "true" ? "on" : "off";
+  return (
+    
+    <div className="row">
+   
+      <div className="col-md-2" />
+      <div className="col-md-8">
+        <div className="row">
+          <h3 className="center">my pantry</h3>
+        
+        </div>
+        {/* <button
+          type="button"
+          className="btn btn-warning"
+          onClick={() => closeTable()}
+        >
+          view/hide pantry table
+        </button> */}
+        <div className="d-flex justify-content-between">
+       
+        <input
+        className="col-md-4"
+        text-align="center"
+            placeholder="filter by food, category, or best by"
+            onChange={(event) => setSearch(event.target.value)}
+          ></input>
+           <AddFood getFoods={getFoods} pantry={pantry} />
+          </div>
+          
+        <div id="myDIV">
+      
+          <table className="table table-hover">
+            <thead className="thead-dark">
+              <tr>           
+                <th scope="col">id</th>
+                <th scope="col">food</th>
+                <th scope="col">category</th>
+                <th scope="col">quantity</th>
+                <th scope="col">unit</th>
+                <th scope="col">best by</th>
+                <th colSpan="3"></th>  
+              </tr>
+            </thead>
+            <tbody>
+           {filterItems.map(
+    ({ id, name, type, quantity, unit, expiration, alert }) => {     
       return (
         <tr key={id}>
           <td>{id}</td>
@@ -114,11 +123,10 @@ export function PantryTable({
           <td>{quantity}</td>
           <td>{unit}</td>
           <td>{expiration}</td>
-
           <td>
             <button
               type="button"
-              className="btn btn-warning"
+              className="btn btn-primary"
               onClick={() => {
                 getRecipesbyFoodName(name);
                 redirect();
@@ -210,21 +218,11 @@ export function PantryTable({
         </tr>
       );
     }
-  );
-
-  //open/hide table view
-  const closeTable = () => {
-    var x = document.getElementById("myDIV");
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
-    }
-  };
-
-  return (
-    <div className="row">
-      <Button
+  )}
+  </tbody>
+          </table>
+          <Button
+     
         variant="warning"
         onClick={() => {
           getRecipesbyAllFood();
@@ -233,39 +231,6 @@ export function PantryTable({
       >
         recipe search(all food)
       </Button>
-      <div className="col-md-2" />
-      <div className="col-md-8">
-        <div className="row">
-          <h3>my pantry</h3>
-          <AddFood getFoods={getFoods} pantry={pantry} />
-        </div>
-        <button
-          type="button"
-          className="btn btn-warning"
-          onClick={() => closeTable()}
-        >
-          view/hide pantry table
-        </button>
-        <div id="myDIV">
-          <input
-            placeholder="filter by "
-            onChange={(event) => setSearch(event.target.value)}
-          ></input>
-          <table className="table table-striped">
-            <thead className="thead-dark">
-              <tr>
-                <th>id</th>
-                <th>Name</th>
-                <th scope="col">type</th>
-                <th scope="col">quantity</th>
-                <th scope="col">uom</th>
-                <th scope="col">best by</th>
-                <th colSpan="3">actions</th>
-  
-              </tr>
-            </thead>
-            <tbody>{renderedTable}</tbody>
-          </table>
         </div>
         <div className="container">
           <div className="row">

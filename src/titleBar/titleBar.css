@@ -1,6 +1,7 @@
 .titlebar-nav {
     background-color: #20BF55;
     width: 100%;
+    color: ghostwhite
 }
 
 h1 {
@@ -9,4 +10,10 @@ h1 {
     padding-left: 1em;
     color:ghostwhite;
     font-family: Arial, Helvetica, sans-serif
+}
+.link, .brand {
+    color: ghostwhite
+}
+.bg-green{
+    background-color: #20BF55;
 }

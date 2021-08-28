@@ -86,127 +86,113 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
 
   return (
     <div>
-      <div className="col=md-4"></div>
-      <div className="row">
-        <div className="col-md-4">
-          <div className="d-flex justify-content-center">
-            <Button
-              variant="warning"
-              className="prev"
-              onClick={() => goToPreviousRecipeCard()}
-            >
-              <i class="arrow left"></i>
+      <div class="d-flex justify-content-between">
+        <Button
+          variant="warning"
+          className="prev"
+          onClick={() => goToPreviousRecipeCard()}
+        >
+          <i class="arrow left"></i> prev
+        </Button>
+        <div className="card">
+          <img
+            src={recipes[counter].image}
+            className="card-img-top"
+            alt="depiction of recipe"
+          ></img>
+          <div class="card-body">
+            <h4 class="card-title">{recipes[counter].title}</h4>
+            <p>
+              <b>Ingredients from your pantry</b>
+              {recipes[counter].usedIngredients.map(function (usedIngredients) {
+                return <ul>{usedIngredients.originalString}</ul>;
+              })}
+            </p>
+            <p>
+              <b>Missing Ingredients</b>
+              <br />
+              {recipes[counter].missedIngredients.map(function (
+                missingIngredient
+              ) {
+                return <ul>{missingIngredient.originalString}</ul>;
+              })}
+            </p>
+
+            {/* create grocery list modal */}
+            <Button variant="btn btn-warning" onClick={openModal}>
+              see details
             </Button>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="center">
-            <div className="card">
-              <img
-                src={recipes[counter].image}
-                className="card-img-top"
-                alt="depiction of recipe"
-              ></img>
-              <div class="card-body">
-                <h4 class="card-title">{recipes[counter].title}</h4>
+
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>{recipes[counter].title}</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
                 <p>
-                  <b>Ingredients from your pantry</b>
-                  {recipes[counter].usedIngredients.map(function (
-                    usedIngredients
-                  ) {
-                    return <ul>{usedIngredients.originalString}</ul>;
-                  })}
-                </p>
-                <p>
-                  <b>Missing Ingredients</b>
-                  <br />
-                  {recipes[counter].missedIngredients.map(function (
-                    missingIngredient
-                  ) {
-                    return <ul>{missingIngredient.originalString}</ul>;
-                  })}
+                  <a
+                    href={recipeDetails.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    view recipe
+                  </a>
                 </p>
 
-                {/* create grocery list modal */}
-                <Button variant="btn btn-warning" onClick={openModal}>
-                  see details
+                <p>
+                  <b>summary</b> <hr />
+                  <div
+                    dangerouslySetInnerHTML={{ __html: recipeDetails.summary }}
+                  />
+                </p>
+                <form className="form-group" onSubmit={sendEmail}>
+                  <input type="hidden" name="contact_number" />
+                  <input
+                    type="hidden"
+                    name="recipe"
+                    value={recipes[counter].title}
+                  />
+                  <input
+                    type="hidden"
+                    name="link"
+                    value={recipeDetails.sourceUrl}
+                  />
+
+                  <input
+                    type="email"
+                    placeholder="type email here"
+                    name="user_email"
+                  />
+                  <input
+                    type="hidden"
+                    value={getText()}
+                    placeholer="copy list here"
+                    name="message"
+                  />
+                  <Button variant="warning" type="submit" value="Send">
+                    send shopping list
+                  </Button>
+                </form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="warning" onClick={handleClose}>
+                  Close
                 </Button>
-
-                <Modal show={show} onHide={handleClose}>
-                  <Modal.Header>
-                    <Modal.Title>{recipes[counter].title}</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <p>
-                      <b>Recipe Instructions</b>
-                      <br />
-                      {recipeDetails.summary}
-                    </p>
-                    <p>
-                      <a
-                        href={recipeDetails.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Click Here for Full Details
-                      </a>
-                    </p>
-
-                    <p>
-                      <b>Missing Ingredients</b>
-                      {recipes[counter].missedIngredients.map(function (
-                        missingIngredient
-                      ) {
-                        return <ul>{missingIngredient.originalString}</ul>;
-                      })}
-                    </p>
-                    <form className="form-group" onSubmit={sendEmail}>
-                      <input type="hidden" name="contact_number" />
-                      <input
-                        type="hidden"
-                        name="recipe"
-                        value={recipes[counter].title}
-                      />
-                      <input
-                        type="hidden"
-                        name="link"
-                        value={recipeDetails.sourceUrl}
-                      />
-
-                      <input
-                        type="email"
-                        placeholder="type email here"
-                        name="user_email"
-                      />
-                      <input
-                        type="hidden"
-                        value={getText()}
-                        placeholer="copy list here"
-                        name="message"
-                      />
-                      <Button variant="warning" type="submit" value="Send">
-                        Email List
-                      </Button>
-                    </form>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="warning" onClick={handleClose}>
-                      Close
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-              </div>
-            </div>
-            <button className="next" onClick={() => goToNextRecipeCard()}>
-              <i class="arrow right"></i>
-            </button>
-            <h5>
-              Recipe {counter + 1} of {recipes.length}
-            </h5>
+              </Modal.Footer>
+            </Modal>
           </div>
+          <h5>
+            Recipe {counter + 1} of {recipes.length}
+          </h5>
         </div>
+
+        <Button
+          variant="warning"
+          className="next"
+          onClick={() => goToNextRecipeCard()}
+        >
+          next <i class="arrow right"></i>
+        </Button>
       </div>
-      <div className="col=md-4"></div>
     </div>
   );
 }
