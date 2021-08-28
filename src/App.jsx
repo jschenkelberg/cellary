@@ -20,7 +20,7 @@ import "@fortawesome/fontawesome-free/js/all.js";
 
 
 function App() {
-  const [data, setData] = useState([
+  const [pantry, setPantry] = useState([
     {
       id: "",
       name: "",
@@ -65,12 +65,10 @@ function App() {
   const getFoods = async () => {
     await axios
       .get(`http://127.0.0.1:8000/pantry/`)
-      .then((response) => setData(response.data));
+      .then((response) => setPantry(response.data));
   };
 
-  const deleteFood = async (id) => {
-    
-     
+  const deleteFood = async (id) => {       
     await axios
       .delete(`http://127.0.0.1:8000/pantry/${id}/`)
       .then((response) => console.log(response));
@@ -97,16 +95,10 @@ function App() {
       )
       .then((response) => setRecipes(response.data));
     console.log(setRecipes);
-  };
-
-  const searchRecipesbyFoodNameButton = (cell) =>{
-    return(<button value={cell} onClick={getRecipesbyFoodName()}>
-      {cell}
-    </button>)
-}    
+  };    
 
   const getRecipesbyAllFood = async () => {
-    let searchAll = data.map((el) => el.name);
+    let searchAll = pantry.map((el) => el.name);
     await axios
       .get(
         `https://api.spoonacular.com/recipes//findByIngredients?apiKey=72148a7e9aa94d95af9d42c77dd8d82a&ingredients=${searchAll}&number=20&limitLicense=true&ranking=1&ignorePantry=True`
@@ -118,76 +110,12 @@ function App() {
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/pantry/")
-      .then((response) => setData(response.data));
+      .then((response) => setPantry(response.data));
   }, []);
-  console.log(data);
 
-  const [selectedRows, setSelectedData] = useState([]);
-  // const onSelectedRows = rows => {
-  //   const mappedRows = rows.map(r => r.original);
-  //   setSelectedData([...selectedRows, ...mappedRows]);
-  // };
 
-  const onSubmitHandler = e => {
-    e.preventDefault();
-    console.log("submit: ", selectedRows);
- };
 
-  const columns = useMemo(
-    () => [
-      {
-        Header: "my pantry",
-        columns: [
-          // {
-          //   Header: "if",
-          //   accessor: "id",         
-          // },
-          {
-            Header: "Name",
-            accessor: "name",         
-          },
-          {
-            Header: "Type",
-            accessor: "type",
-            Filter: SelectColumnFilter,
-            filter: "includes",
-          },
-          {
-            Header: "quantity",
-            accessor: "quantity"
-          },
-          {
-            Header: "units",
-            accessor: "unit",
-          },
-          {
-            Header: "best by",
-            accessor: "expiration",
-            Cell: ({ cell: { value } }) => value || "-"
-          },   
-          {
-            Header: "Actions",
-            accessor: "actions",
-            Cell: (props) => {
-              // const rowIdx = props.values.id;
-              // const rowName = props.values.name;
-              return (
-                <div>
-                  {/* <span onClick={() => getRecipesbyFoodName(rowName)}>
-                    <i className="far fa-edit action mr-2"></i>
-                  </span> */}
-        
-                  <span onClick={() => deleteFood(data.id)}>
-                    <i className="fas fa-trash action"></i>
-                  </span>
-                </div>
-              );
-            },
-          }
-        ]
-      }
-    ]
-  )
+
 
 
   return (
@@ -197,7 +125,7 @@ function App() {
         <Route
           path="/DisplayRecipes"
           render={(props) => (
-            <DisplayRecipes {...props} data={data} recipes={recipes} />
+            <DisplayRecipes {...props} pantry={pantry} recipes={recipes} />
           )}
         ></Route>
         <Route exact path="/">
@@ -206,24 +134,23 @@ function App() {
             alertFoodOff={alertFoodOff}
             getFoods={getFoods}
             deleteFood={deleteFood}
-            data={data}
+            pantry={pantry}
             recipes={recipes}
             getRecipesbyFoodName={getRecipesbyFoodName}
-            getRecipesbyAllFood={getRecipesbyAllFood}
-            columns={columns} data={data}
+            getRecipesbyAllFood={getRecipesbyAllFood}            
         
           />
         </Route>
         <Route
           path="/DisplayRecipes"
           render={(props) => (
-            <DisplayRecipes {...props} data={data} recipes={recipes} />
+            <DisplayRecipes {...props} pantry={pantry} recipes={recipes} />
           )}
         ></Route>
          <Route
           path="/alerts"
           render={(props) => (
-            <EmailAlertForm {...props} data={data} alertFoodOn={alertFoodOn}  getFoods={getFoods}
+            <EmailAlertForm {...props} pantry={pantry} alertFoodOn={alertFoodOn}  getFoods={getFoods}
             alertFoodOff={alertFoodOff} />
           )}
         ></Route>

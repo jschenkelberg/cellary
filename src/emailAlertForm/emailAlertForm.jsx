@@ -56,28 +56,6 @@ const EmailAlertForm = ({ pantry, alertFoodOn, alertFoodOff, getFoods }) => {
       );
   }
 
-// var foodWithAlertOn = pantry.filter(function(food){
-//   let convertedAlert = String(alert);
-//       let onOffAlert = convertedAlert === "true" ? "on" : "off";
-//   return food.alert = "on";
-//   console.log(foodWithAlertOn);
-// });
-
-// function extractAlertNameToString(foodItems) {
-//   console.log("Grocery Items Param: ",foodItems)
-//   let textString = "";
-//   for (let i = 0; i < foodItems.length - 1; i++) {
-//     textString += foodItems[i].originalString + "\n";
-//   }
-//   return textString;
-// }
-
-// const getText = () => {
-//   let textResult = extractAlertNameToString(
-// foodWithAlertOn  
-// );
-//   return textResult;
-// };
 var alertList = pantry.filter(function({alert}){
   return alert;
 });
@@ -111,7 +89,7 @@ const getText = () => {
         <tbody>{renderedTable}</tbody>
       </table>
 
-      <p>alert form</p>
+    
 
       <form className="form-group" onSubmit={sendEmail}>
         <input type="hidden" name="contact_number" />
@@ -120,8 +98,8 @@ const getText = () => {
 
         <input type="email" placeholder="type email here" name="user_email" />
         
-        <textarea
-          type="text"
+        <input
+          type="hidden"
           value={getText()}          
           name="message"
         />
