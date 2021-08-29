@@ -13,3 +13,14 @@
     border-color: #7DC95E !important;
     color:white !important;
   }
+  .greenbutton {
+    background-color: #20BF55 !important;
+    border-color: #20BF55 !important;
+    color:white !important;
+  }
+  input {
+      border-radius: 10px;
+  }
+  select {
+      border-radius: 10px;
+  }

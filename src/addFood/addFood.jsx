@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form, FormGroup, FormControl } from "react-bootstrap";
+import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import useForm from '../useForm/useForm';
 import axios from 'axios';
 import Fab from '@material-ui/core/Fab';
@@ -32,25 +32,27 @@ const AddFood = ({getFoods}) => {
 
              return (       
          <>
-             <Fab className="bluebutton" size="small" aria-label="add" onClick={handleShow}>
+             <Fab className="greenbutton" size="small" aria-label="add" onClick={handleShow}>
 +            </Fab>
       
             <Modal show={show} onHide={handleClose}>
 
-              <Modal.Body>
-              <div>
-              <Form onSubmit={handleSubmit}>
-              <h2>add food to pantry</h2>
-              <br />
-              <div className="form-group">
+              <Modal.Header closeButton>
+              <h3>add food to pantry</h3>
+              </Modal.Header>  
+              <Modal.Body> 
+              <div className="container">
+              <form className= "form-horizontal">
+              <div className="form-horizontal">
+              <Row>
                 <select
-                  className="custom-select custom-select-lg"
+                  className="form-select form-select-sm"
                   value={values.type}
                   type="text"
                   name= "type"
                   onChange={handleChange}
                 >
-                  <option placeholder>Select a Category</option>
+                  <option placeholder>select a category</option>
                   <option value="beverages">beverages</option>
                   <option value="bakery">bakery</option>
                   <option value="canned goods">canned goods</option>
@@ -61,51 +63,78 @@ const AddFood = ({getFoods}) => {
                   <option value="produce">produce</option>
                   <option value="other">other</option>
                 </select>
-              
-    
+              </Row>
+              <Row>
+              <Col>
+              <div className="mb-3">
+              <label for="name" className="form-label">food</label>
               <input
+              id="food"
+              className="form-contol"
                 type="text"
                 name="name"
-                placeholder="Name"
+                placeholder="name"
                 onChange={handleChange}
                 value={values.name}
               />
+              </div>
+              </Col>
+            
     
+    <Col>
+    <div className="mb-3">
+              <label for="quantity" className="form-label">quantity</label>
+              
               <input
+              id="quantity"
+              className="form-contol"
                 type="number"
                 name="quantity"
                 placeholder="quantity"
                 onChange={handleChange}
                 value={values.quantity}
               />
-    
+              </div>
+              </Col>
+    <Col>
+    <div className="mb-3">
+              <label for="unit" className="form-label">unit</label>
+              
               <input
+              id="unit"
+              className="form-contol"
                 type="text"
                 name="unit"
                 placeholder="unit"
                 onChange={handleChange}
                 value={values.unit}  
                         />
+                   </div>
+                        </Col>
+                               <Col>
+                               <div className="mb-3">
+              <label for="expiration" className="form-label">use by</label>
+              
               <input
+              id="expiration"
+              className="form-contol"
                 type="date"
                 name="expiration"
                 placeholder="expiration"
                 onChange={handleChange}
                 value={values.expiration}  
                         />
-             </div>
-
-    
-              <Button variant="warning" type="submit"> Submit </Button>
-            </Form>
+                        </div>
+                        </Col>
+              </Row> 
+                
+              <Button className="greenbutton" type="submit" onClick={handleSubmit}> Submit </Button>
               </div>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Close
-                </Button>
-               
-              </Modal.Footer>
+            </form> 
+            </div>
+
+
+              </Modal.Body>              
             </Modal>
           </> 
         );

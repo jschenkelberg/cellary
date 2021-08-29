@@ -2,8 +2,8 @@ import React from "react";
 import "./pantryTable.css";
 import "bootstrap/dist/css/bootstrap.css";
 import AddFood from "../addFood/addFood";
-import { useState, useMemo } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Modal,Row,Col } from "react-bootstrap";
 import useForm from "../useForm/useForm";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
@@ -108,7 +108,7 @@ export function PantryTable({
                 <th scope="col">category</th>
                 <th scope="col">quantity</th>
                 <th scope="col">unit</th>
-                <th scope="col">best by</th>
+                <th scope="col">use by</th>
                 <th colSpan="3"></th>  
               </tr>
             </thead>
@@ -126,7 +126,7 @@ export function PantryTable({
           <td>
             <Button
               type="button"
-              className="lightgreenbutton"
+              className="greenbutton"
               onClick={() => {
                 getRecipesbyFoodName(name);
                 redirect();
@@ -136,79 +136,132 @@ export function PantryTable({
             </Button>
           </td>
           <td>
-            <Button className="lightgreenbutton" variant="btn btn-warning" onClick={handleShow}>
+            <Button className="greenbutton" variant="btn btn-warning" onClick={handleShow}>
               edit
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-              <Modal.Header>
+              <Modal.Header closeButton>
                 <Modal.Title>edit food</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <form onSubmit={handleSubmit}>
-                  <div className="form-group">
-                    <input
-                      type="number"
-                      name="id"
-                      placeholder="id"
-                      onChange={handleChange}
-                      value={values.id}
-                    />
-
-                    <input
-                      type="text"
-                      name="name"
-                      id={name}
-                      placeholder="name"
-                      onChange={handleChange}
-                      value={values.name}
-                    />
-
-                    <input
-                      type="text"
-                      name="type"
-                      placeholder="type"
-                      onChange={handleChange}
-                      value={values.type}
-                    />
-
-                    <input
-                      type="text"
-                      name="quantity"
-                      placeholder="quantity"
-                      onChange={handleChange}
-                      value={values.quantity}
-                    />
-                    <input
-                      type="text"
-                      name="unit"
-                      placeholder={unit}
-                      onChange={handleChange}
-                      value={values.unit}
-                    />
-                    <input
-                      type="date"
-                      name="expiration"
-                      placeholder={expiration}
-                      onChange={handleChange}
-                      value={values.expiration}
-                    />
-
-                    <button type="submit"> Submit </button>
-                  </div>
-                </form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button className="lightgreenbutton" onClick={handleClose}>
-                  Close
-                </Button>
-              </Modal.Footer>
+              <div className="container">
+              <form className= "form-horizontal">
+              <div className="form-horizontal">
+              <Row>
+              <Col>
+              <div className="mb-3">
+              <label for="id" className="form-label">food id</label>
+              <input
+              id="id"
+              className="form-contol"
+                type="text"
+                name="id"
+                placeholder="id"
+                onChange={handleChange}
+                value={values.name}
+              />
+              </div>
+              </Col>
+              <Col>
+              <label for="category" className="form-label">category</label>
+                <select
+                id="category"
+                  className="form-select form-select-sm"
+                  value={values.type}
+                  type="text"
+                  name= "type"
+                  onChange={handleChange}
+                >
+                
+                  <option placeholder>select a category</option>
+                  <option value="beverages">beverages</option>
+                  <option value="bakery">bakery</option>
+                  <option value="canned goods">canned goods</option>
+                  <option value="dairy">dairy</option>
+                  <option value="dry/baking goods">dry/baking goods</option>
+                  <option value="frozen foods">frozen foods</option>
+                  <option value="meat">meat</option>
+                  <option value="produce">produce</option>
+                  <option value="other">other</option>
+                </select>
+                </Col>
+              </Row>
+              <Row>
+              <Col>
+              <div className="mb-3">
+              <label for="name" className="form-label">food</label>
+              <input
+              id="food"
+              className="form-contol"
+                type="text"
+                name="name"
+                placeholder="name"
+                onChange={handleChange}
+                value={values.name}
+              />
+              </div>
+              </Col>
+            
+    
+    <Col>
+    <div className="mb-3">
+              <label for="quantity" className="form-label">quantity</label>              
+              <input
+              id="quantity"
+              className="form-contol"
+                type="number"
+                name="quantity"
+                placeholder="quantity"
+                onChange={handleChange}
+                value={values.quantity}
+              />
+              </div>
+              </Col>
+    <Col>
+    <div className="mb-3">
+              <label for="unit" className="form-label">unit</label>
+              
+              <input
+              id="unit"
+              className="form-contol"
+                type="text"
+                name="unit"
+                placeholder="unit"
+                onChange={handleChange}
+                value={values.unit}  
+                        />
+                   </div>
+                        </Col>
+                               <Col>
+                               <div className="mb-3">
+              <label for="expiration" className="form-label">use by</label>
+              
+              <input
+              id="expiration"
+              className="form-contol"
+                type="date"
+                name="expiration"
+                placeholder="expiration"
+                onChange={handleChange}
+                value={values.expiration}  
+                        />
+                        </div>
+                        </Col>
+              </Row> 
+                
+              <Button className="greenbutton" type="submit" onClick={handleSubmit}> Submit </Button>
+              </div>
+            </form> 
+            </div>
+              
+              </Modal.Body>        
             </Modal>
           </td>
           <td>
             <Button
               type="button"
-              className="lightgreenbutton"
+              className="greenbutton"
               onClick={() => deleteFood(id)}
             >
               remove
@@ -222,7 +275,7 @@ export function PantryTable({
   </tbody>
           </table>
           <Button
-        className="lightgreenbutton"
+        className="greenbutton"
     
         onClick={() => {
           getRecipesbyAllFood();

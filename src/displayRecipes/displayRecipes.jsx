@@ -88,8 +88,8 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
 
   return (
     <div>
-      <div class="d-flex justify-content-center">
-      <div class="align-self-center">
+      <div className="d-flex justify-content-center">
+      <div className="align-self-center">
       <ArrowBack style={{ fontSize: 75 }}
           
           onClick={() => goToPreviousRecipeCard()}
@@ -103,8 +103,8 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
             className="card-img-top"
             alt="depiction of recipe"
           ></img>
-          <div class="card-body">
-            <h4 class="card-title">{recipes[counter].title}</h4>
+          <div className="card-body">
+            <h4 className="card-title">{recipes[counter].title}</h4>
             <p>
               <b>Ingredients from your pantry</b>
               {recipes[counter].usedIngredients.map(function (usedIngredients) {
@@ -122,7 +122,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
             </p>
 
             {/* create grocery list modal */}
-            <Button className="bluebutton" onClick={openModal}>
+            <Button className="greenbutton" onClick={openModal}>
               see details
             </Button>
 
@@ -137,7 +137,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
                     dangerouslySetInnerHTML={{ __html: recipeDetails.summary }}
                   />
                 </p>
-                <Button className="orangebutton" onClick={handleClose}>
+                <Button className="greenbutton" onClick={handleClose}>
                 <a className="recipebutton"
                     href={recipeDetails.sourceUrl}
                     target="_blank"
@@ -172,7 +172,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
                     placeholer="copy list here"
                     name="message"
                   />
-                  <Button className="bluebutton" type="submit" value="Send">
+                  <Button className="greenbutton" type="submit" value="Send">
                     send shopping list
                   </Button>
                 </form>
@@ -181,7 +181,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
             </Modal>
           </div>
           </div>
-          <div class="align-self-center">
+          <div className="align-self-center">
           <ArrowForward style={{ fontSize: 75 }}
           onClick={() => goToNextRecipeCard()}
         >          
@@ -189,7 +189,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
         </div>
         </div>
 
-          <div class="d-flex justify-content-around">
+          <div className="d-flex justify-content-around">
     
           <h5>
             Recipe {counter + 1} of {recipes.length}

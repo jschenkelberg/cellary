@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -7,7 +6,7 @@ import { Container } from 'react-bootstrap';
 import emailjs from "emailjs-com";
 import { Button } from "react-bootstrap";
 import "./alertCalendar.css";
-import { withWidth } from '@material-ui/core';
+
 
 const localizer = momentLocalizer(moment);
 
@@ -94,14 +93,14 @@ const getText = () => {
         <div>
       
      <Container fluid= "md">
-     <div class="d-flex justify-content-center">
-     <div class="align-self-center">
+     <div className="d-flex justify-content-center">
+     <div className="align-self-center">
 <Container fluid="lg">
      <table className="table table-striped">
         <thead className="thead-dark">
           <tr>
             <th scope="col">name</th>
-            <th scope="col">best by</th>
+            <th scope="col">use by</th>
             <th colSpan="3">alerts</th>
           </tr>
         </thead>
@@ -118,7 +117,7 @@ const getText = () => {
           name="message"
         />
 
-        <Button className="lightgreenbutton" type="submit" value="Send">
+        <Button className="greenbutton" type="submit" value="Send">
           Email List
         </Button>  
         

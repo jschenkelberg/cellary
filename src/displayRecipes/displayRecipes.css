@@ -80,3 +80,8 @@ a:hover {
 .recipebutton{
   color: white;
 }
+.greenbutton {
+  background-color: #20BF55 !important;
+  border-color: #20BF55 !important;
+  color:white !important;
+}
