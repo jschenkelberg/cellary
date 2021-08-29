@@ -20,4 +20,19 @@ h3 {
     
 
 }
-   
+ 
+.orangebutton {
+    border-color: #DB7C26 !important;
+    background-color: #DB7C26 !important;
+    color:white !important;
+  }
+.bluebutton {
+    background-color: #058ED9 !important;
+    border-color: #058ED9 !important;
+    color:white !important;
+  }
+  .lightgreenbutton {
+    background-color: #7DC95E !important;
+    border-color: #7DC95E !important;
+    color:white !important;
+  }

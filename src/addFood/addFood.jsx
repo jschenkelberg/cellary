@@ -32,7 +32,7 @@ const AddFood = ({getFoods}) => {
 
              return (       
          <>
-             <Fab size="small" color="primary" aria-label="add" onClick={handleShow}>
+             <Fab className="bluebutton" size="small" aria-label="add" onClick={handleShow}>
 +            </Fab>
       
             <Modal show={show} onHide={handleClose}>

@@ -77,7 +77,7 @@ export function PantryTable({
       <div className="col-md-2" />
       <div className="col-md-8">
         <div className="row">
-          <h3 className="center">my pantry</h3>
+
         
         </div>
         {/* <button
@@ -124,19 +124,19 @@ export function PantryTable({
           <td>{unit}</td>
           <td>{expiration}</td>
           <td>
-            <button
+            <Button
               type="button"
-              className="btn btn-primary"
+              className="lightgreenbutton"
               onClick={() => {
                 getRecipesbyFoodName(name);
                 redirect();
               }}
             >
               get recipes
-            </button>
+            </Button>
           </td>
           <td>
-            <Button variant="btn btn-warning" onClick={handleShow}>
+            <Button className="lightgreenbutton" variant="btn btn-warning" onClick={handleShow}>
               edit
             </Button>
 
@@ -199,20 +199,20 @@ export function PantryTable({
                 </form>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="warning" onClick={handleClose}>
+                <Button className="lightgreenbutton" onClick={handleClose}>
                   Close
                 </Button>
               </Modal.Footer>
             </Modal>
           </td>
           <td>
-            <button
+            <Button
               type="button"
-              className="btn btn-warning"
+              className="lightgreenbutton"
               onClick={() => deleteFood(id)}
             >
               remove
-            </button>
+            </Button>
           </td>
    
         </tr>
@@ -222,8 +222,8 @@ export function PantryTable({
   </tbody>
           </table>
           <Button
-     
-        variant="warning"
+        className="lightgreenbutton"
+    
         onClick={() => {
           getRecipesbyAllFood();
           redirect();

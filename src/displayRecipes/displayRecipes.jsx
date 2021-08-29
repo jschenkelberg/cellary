@@ -122,7 +122,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
             </p>
 
             {/* create grocery list modal */}
-            <Button variant="btn btn-warning" onClick={openModal}>
+            <Button className="bluebutton" onClick={openModal}>
               see details
             </Button>
 
@@ -132,18 +132,18 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
               </Modal.Header>
               <Modal.Body>        
                 <p>
-                  <b>summary</b> <hr />
+      
                   <div
                     dangerouslySetInnerHTML={{ __html: recipeDetails.summary }}
                   />
                 </p>
-                <Button variant="warningim" onClick={handleClose}>
-                <a
+                <Button className="orangebutton" onClick={handleClose}>
+                <a className="recipebutton"
                     href={recipeDetails.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    view recipe
+                    full recipe
                     </a>
                 </Button>
               </Modal.Body>
@@ -172,7 +172,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
                     placeholer="copy list here"
                     name="message"
                   />
-                  <Button variant="warning" type="submit" value="Send">
+                  <Button className="bluebutton" type="submit" value="Send">
                     send shopping list
                   </Button>
                 </form>
@@ -184,9 +184,8 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
           <div class="align-self-center">
           <ArrowForward style={{ fontSize: 75 }}
           onClick={() => goToNextRecipeCard()}
-        >
-          
-        </ArrowForward>
+        >          
+        </ArrowForward>        
         </div>
         </div>
 

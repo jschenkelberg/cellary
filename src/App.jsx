@@ -1,21 +1,17 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import TitleBar from "./titleBar/titleBar";
 import { PantryTable } from "./pantryTable/pantryTable";
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
-  Redirect,
 } from "react-router-dom";
 import axios from "axios";
 import DisplayRecipes from "./displayRecipes/displayRecipes";
-import EmailAlertForm from "./emailAlertForm/emailAlertForm";
-import { SelectColumnFilter } from "./Filter/Filter";
-import { Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
+import AlertCalendar from "./alertCalendar/alertCalendar";
 
 
 
@@ -133,10 +129,9 @@ function App() {
         ></Route>
          <Route
           path="/alerts"
-          render={(props) => (
-            <EmailAlertForm {...props} pantry={pantry} alertFoodOn={alertFoodOn}  getFoods={getFoods}
-            alertFoodOff={alertFoodOff} />
-          )}
+          render={(props) => (         
+            <AlertCalendar {...props} pantry={pantry} alertFoodOn={alertFoodOn}  getFoods={getFoods}
+            alertFoodOff={alertFoodOff} /> )}      
         ></Route>
       </Switch>
     </div>

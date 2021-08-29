@@ -19,7 +19,7 @@ function TitleBar(_props) {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Nav className="me-auto">
               <LinkContainer to="/">
-                <Nav.Link>my pantry</Nav.Link>
+                <Nav.Link>pantry</Nav.Link>
               </LinkContainer>
 
               <LinkContainer to="/DisplayRecipes">
