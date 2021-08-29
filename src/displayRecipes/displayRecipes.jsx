@@ -3,6 +3,8 @@ import "./displayRecipes.css";
 import { Button, Modal } from "react-bootstrap";
 import emailjs from "emailjs-com";
 import axios from "axios";
+import { ArrowForward, ArrowBack } from '@material-ui/icons';
+
 
 function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
   const [recipeDetails, setRecipeDetails] = useState([]);
@@ -86,15 +88,16 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
 
   return (
     <div>
-      <div class="d-flex justify-content-between">
-        <Button
-          variant="warning"
-          className="prev"
+      <div class="d-flex justify-content-center">
+      <div class="align-self-center">
+      <ArrowBack style={{ fontSize: 75 }}
+          
           onClick={() => goToPreviousRecipeCard()}
         >
-          <i class="arrow left"></i> prev
-        </Button>
-        <div className="card">
+          
+        </ArrowBack>
+        </div>
+        <div className="card mb-3">
           <img
             src={recipes[counter].image}
             className="card-img-top"
@@ -127,24 +130,25 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
               <Modal.Header closeButton>
                 <Modal.Title>{recipes[counter].title}</Modal.Title>
               </Modal.Header>
-              <Modal.Body>
-                <p>
-                  <a
-                    href={recipeDetails.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    view recipe
-                  </a>
-                </p>
-
+              <Modal.Body>        
                 <p>
                   <b>summary</b> <hr />
                   <div
                     dangerouslySetInnerHTML={{ __html: recipeDetails.summary }}
                   />
                 </p>
-                <form className="form-group" onSubmit={sendEmail}>
+                <Button variant="warningim" onClick={handleClose}>
+                <a
+                    href={recipeDetails.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    view recipe
+                    </a>
+                </Button>
+              </Modal.Body>
+              <Modal.Footer>
+              <form className="form-group" onSubmit={sendEmail}>
                   <input type="hidden" name="contact_number" />
                   <input
                     type="hidden"
@@ -172,27 +176,29 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
                     send shopping list
                   </Button>
                 </form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="warning" onClick={handleClose}>
-                  Close
-                </Button>
+           
               </Modal.Footer>
             </Modal>
           </div>
+          </div>
+          <div class="align-self-center">
+          <ArrowForward style={{ fontSize: 75 }}
+          onClick={() => goToNextRecipeCard()}
+        >
+          
+        </ArrowForward>
+        </div>
+        </div>
+
+          <div class="d-flex justify-content-around">
+    
           <h5>
             Recipe {counter + 1} of {recipes.length}
           </h5>
+   
         </div>
 
-        <Button
-          variant="warning"
-          className="next"
-          onClick={() => goToNextRecipeCard()}
-        >
-          next <i class="arrow right"></i>
-        </Button>
-      </div>
+       
     </div>
   );
 }
