@@ -97,7 +97,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
           
         </ArrowBack>
         </div>
-        <div className="card mb-3">
+        <div className="card">
           <img
             src={recipes[counter].image}
             className="card-img-top"
@@ -106,13 +106,13 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
           <div className="card-body">
             <h4 className="card-title">{recipes[counter].title}</h4>
             <p>
-              <b>Ingredients from your pantry</b>
+              <b>ingredients from your pantry</b>
               {recipes[counter].usedIngredients.map(function (usedIngredients) {
                 return <ul>{usedIngredients.originalString}</ul>;
               })}
             </p>
             <p>
-              <b>Missing Ingredients</b>
+              <b>missing ingredients</b>
               <br />
               {recipes[counter].missedIngredients.map(function (
                 missingIngredient
@@ -192,7 +192,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
           <div className="d-flex justify-content-around">
     
           <h5>
-            Recipe {counter + 1} of {recipes.length}
+            recipe {counter + 1} of {recipes.length}
           </h5>
    
         </div>

@@ -95,6 +95,16 @@ export function PantryTable({
             placeholder="filter by food, category, or best by"
             onChange={(event) => setSearch(event.target.value)}
           ></input>
+                 <Button
+        className="greenbutton"
+    
+        onClick={() => {
+          getRecipesbyAllFood();
+          redirect();
+        }}
+      >
+        recipe search(all food)
+      </Button>
            <AddFood getFoods={getFoods} pantry={pantry} />
           </div>
           
@@ -274,16 +284,7 @@ export function PantryTable({
   )}
   </tbody>
           </table>
-          <Button
-        className="greenbutton"
-    
-        onClick={() => {
-          getRecipesbyAllFood();
-          redirect();
-        }}
-      >
-        recipe search(all food)
-      </Button>
+   
         </div>
         <div className="container">
           <div className="row">

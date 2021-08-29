@@ -118,7 +118,7 @@ const getText = () => {
         />
 
         <Button className="greenbutton" type="submit" value="Send">
-          Email List
+          email alert reminder
         </Button>  
         
       </form>
