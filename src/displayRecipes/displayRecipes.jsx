@@ -73,8 +73,8 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
   function extractRecipeNameToString(groceryItems) {
     //console.log("Grocery Items Param: ",groceryItems)
     let textString = "";
-    for (let i = 0; i < groceryItems.length - 1; i++) {
-      textString += groceryItems[i].originalString + "\n";
+    for (let i = 0; i < groceryItems.length; i++) {
+      textString += `${groceryItems[i].originalString},  \n`;
     }
     return textString;
   }
@@ -97,21 +97,25 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
           
         </ArrowBack>
         </div>
-        <div className="card">
+        <div className="card mb-3">
+        <div class="row">
+        <div class="col-md-4">
           <img
             src={recipes[counter].image}
-            className="card-img-top"
+            className="img-fluid rounded-start"
             alt="depiction of recipe"
-          ></img>
+          ></img>          
+          </div>
+          <div className="col-md-8">
           <div className="card-body">
             <h4 className="card-title">{recipes[counter].title}</h4>
-            <p>
+            <p className="card-text">
               <b>ingredients from your pantry</b>
               {recipes[counter].usedIngredients.map(function (usedIngredients) {
                 return <ul>{usedIngredients.originalString}</ul>;
               })}
             </p>
-            <p>
+            <p className='card-text'>
               <b>missing ingredients</b>
               <br />
               {recipes[counter].missedIngredients.map(function (
@@ -120,7 +124,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
                 return <ul>{missingIngredient.originalString}</ul>;
               })}
             </p>
-
+</div>
             {/* create grocery list modal */}
             <Button className="greenbutton" onClick={openModal}>
               see details
@@ -179,6 +183,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
            
               </Modal.Footer>
             </Modal>
+            </div>
           </div>
           </div>
           <div className="align-self-center">

@@ -30,6 +30,7 @@
 img {
   border-radius: auto;
   text-align: center;
+  align-items: flex-start;
 }
 
 .container {
@@ -57,7 +58,8 @@ b{
 
 .row {
   display: flex;
-  align-items: center;
+  align-items:top;
+  padding-left: 3mm;
 } 
 
 .orangebutton {
@@ -84,4 +86,11 @@ a:hover {
   background-color: #20BF55 !important;
   border-color: #20BF55 !important;
   color:white !important;
+}
+ul {
+  padding-bottom: 0 !important;
+  margin-bottom: 0mm !important;
+}
+p{
+  size: -2rem;
 }

@@ -76,7 +76,7 @@ var alertList = pantry.filter(function({alert}){
 
 function extractListToString(foodItems) {  
   let textString = "";
-  for (let i = 0; i < foodItems.length - 1; i++) {
+  for (let i = 0; i < foodItems.length; i++) {
     textString += foodItems[i].name+ '- ' + foodItems[i].expiration + ', ' ;
   }
   return textString;
