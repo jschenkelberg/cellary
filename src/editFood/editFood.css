@@ -1,0 +1,38 @@
+td {
+    font-weight: bolder;
+    background-color: ghostwhite;
+    text-align: center;
+}
+
+table {
+    
+    border-radius: 5px;
+    text-align: center;
+}
+h3 {
+    padding-top: 3mm;
+    padding-bottom: 3mm;
+}
+
+.row {
+    padding-top: 3mm;
+    padding-bottom: 3mm;
+    
+
+}
+ 
+.orangebutton {
+    border-color: #DB7C26 !important;
+    background-color: #DB7C26 !important;
+    color:white !important;
+  }
+.bluebutton {
+    background-color: #058ED9 !important;
+    border-color: #058ED9 !important;
+    color:white !important;
+  }
+  .greenbutton {
+    background-color: #20BF55 !important;
+    border-color: #20BF55 !important;
+    color:white !important;
+  }

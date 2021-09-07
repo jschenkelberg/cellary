@@ -37,7 +37,7 @@ function DisplayRecipes({ recipes, pantry, getRecipesByFoodName }) {
       )
       .then(
         (result) => {
-          alert("email sent");
+          console.log("email sent");
         },
         (error) => {
           console.log(error.text);
